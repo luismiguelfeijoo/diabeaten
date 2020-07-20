@@ -45,4 +45,8 @@ public class UserService {
         roleRepository.save(role);
         return result;
     }
+
+    public User getById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new NoSuchUserException("There's no user with provided id"));
+    }
 }

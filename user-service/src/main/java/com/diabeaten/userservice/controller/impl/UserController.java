@@ -21,10 +21,15 @@ public class UserController implements IUserController {
         return userService.getAll();
     }
 
-    @GetMapping("/users/{username}")
+    @GetMapping("/users")
     @Override
-    public User getByUsername(@PathVariable(name = "username") String username) {
-        return userService.getByUsername(username);
+    public User getByUsername(@RequestParam(name = "username", required = false) String username, @RequestParam(name = "id", required = false) Long id) {
+        if (username != null) {
+            return userService.getByUsername(username);
+        } else if (id != null) {
+            return userService.getById(id);
+        }
+        return null;
     }
 
     // create new users

@@ -1,9 +1,11 @@
 package com.diabeaten.edgeservice.controller.impl;
 
 import com.diabeaten.edgeservice.client.dto.InformationDTO;
+import com.diabeaten.edgeservice.client.dto.NewPatientDTO;
 import com.diabeaten.edgeservice.client.dto.NewUserDTO;
 import com.diabeaten.edgeservice.controller.interfaces.IPatientController;
 import com.diabeaten.edgeservice.model.Information;
+import com.diabeaten.edgeservice.model.Patient;
 import com.diabeaten.edgeservice.model.User;
 import com.diabeaten.edgeservice.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +26,20 @@ public class PatientController implements IPatientController {
     }
 
 
-    // update method with view model to show all of the user information
-    /*
+
     @GetMapping("/patients/{id}")
     @Override
-    public User getById(@PathVariable(name = "id") Long id ) {
+    public Patient getById(@PathVariable(name = "id") Long id ) {
         return patientService.getById(id);
     }
-     */
 
+    @PostMapping("/patients")
+    @Override
+    public User create(@RequestBody @Valid NewPatientDTO newPatientDTO) {
+        return patientService.create(newPatientDTO);
+    }
+
+    /*
     @PostMapping("/patients")
     @Override
     public User create(@RequestBody @Valid NewUserDTO newUserDTO) {
@@ -44,4 +51,5 @@ public class PatientController implements IPatientController {
     public Information create(@RequestBody @Valid InformationDTO informationDTO) {
         return patientService.addInformation(informationDTO);
     }
+     */
 }

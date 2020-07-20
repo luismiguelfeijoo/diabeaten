@@ -13,8 +13,8 @@ public interface UserClient {
     @GetMapping("/users")
     public List<User> getAll(@RequestHeader(name = "Authorization") String token);
 
-    @GetMapping("/users/{username}")
-    public User findByUsername(@RequestHeader(name = "Authorization") String token, @PathVariable(name = "username") String username);
+    @GetMapping("/users")
+    public User getBy(@RequestHeader(name = "Authorization") String token, @RequestParam(name = "username", required = false) String username, @RequestParam(name = "id", required = false) Long id);
 
     @PostMapping("/users")
     public User createUser(@RequestHeader(name = "Authorization") String token, @RequestBody NewUserDTO newUserDTO);

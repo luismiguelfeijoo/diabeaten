@@ -29,7 +29,7 @@ public class UserService implements UserDetailsService {
         String userToken = "Bearer " + jwtUtil.generateToken("user-service");
         System.out.println("Search user with username: " + username);
         try {
-            User user = userClient.findByUsername(userToken, username);
+            User user = userClient.getBy(userToken, username, null);
             System.out.println(user);
             return new CustomSecuredUser(user);
         } catch (Exception e) {

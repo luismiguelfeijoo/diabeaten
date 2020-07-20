@@ -9,5 +9,5 @@ import java.util.List;
 public interface IUserController {
     public User createUser(@RequestBody NewUserDTO newUser);
     public List<User> getUsers();
-    public User getByUsername(String username);
+    public User getByUsername(String username, Long id);
 }
