@@ -39,13 +39,33 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
 
+
         httpSecurity.httpBasic();
 
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 //mvcMatchers
+                .mvcMatchers(HttpMethod.GET, "/patients").hasAnyAuthority("ROLE_ADMIN", "ROLE_PATIENT")
+                .mvcMatchers(HttpMethod.POST, "/patients").hasAuthority("ROLE_ADMIN")
+                .anyRequest().permitAll()
                 .and().requestCache().requestCache(new NullRequestCache()).and().httpBasic().and().cors().and().csrf().disable();
 
+
+
+        /*
+        httpSecurity.csrf().disable();
+        httpSecurity.logout()
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
+        httpSecurity.httpBasic();
+        httpSecurity.authorizeRequests()
+                .mvcMatchers(HttpMethod.GET, "/patients").hasAnyAuthority("ROLE_ADMIN", "ROLE_PATIENT")
+                .mvcMatchers(HttpMethod.POST, "/patients").hasAuthority("ROLE_ADMIN")
+                .anyRequest().permitAll();
+
+
+         */
 
     }
 

@@ -1,5 +1,7 @@
 package com.diabeaten.userservice.model;
 
+import com.diabeaten.userservice.util.Hashing;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,8 +33,8 @@ public class User {
      * @param password a String value
      */
     public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+        setUsername(username);
+        setPassword(password);
     }
 
     // Getters & Setters
@@ -82,7 +84,7 @@ public class User {
      * @param password a password element
      */
     public void setPassword(String password) {
-        this.password = password;
+        this.password = Hashing.hash(password);
     }
 
     /**

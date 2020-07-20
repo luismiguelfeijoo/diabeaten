@@ -41,9 +41,8 @@ public class UserService implements UserDetailsService {
                 new UsernameNotFoundException("Invalid username/password combination.")));*/
     }
 
-
     public UserDetails notLoadByUsername(String username) {
-        throw new UserClientNotWorkingException("user-service not available!");
+        throw new UserClientNotWorkingException("User Service is down");
     }
 
     @Secured("ROLE_ADMIN")
