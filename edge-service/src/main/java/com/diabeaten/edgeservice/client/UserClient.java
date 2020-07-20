@@ -1,7 +1,7 @@
 package com.diabeaten.edgeservice.client;
 
 import com.diabeaten.edgeservice.client.dto.NewUserDTO;
-import com.diabeaten.edgeservice.model.dto.User;
+import com.diabeaten.edgeservice.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

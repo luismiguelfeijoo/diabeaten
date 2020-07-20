@@ -2,7 +2,7 @@ package com.diabeaten.edgeservice.service;
 
 import com.diabeaten.edgeservice.client.UserClient;
 import com.diabeaten.edgeservice.exception.UserClientNotWorkingException;
-import com.diabeaten.edgeservice.model.dto.User;
+import com.diabeaten.edgeservice.model.User;
 import com.diabeaten.edgeservice.security.CustomSecuredUser;
 import com.diabeaten.edgeservice.util.JwtUtil;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;

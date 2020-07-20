@@ -1,7 +1,7 @@
 package com.diabeaten.edgeservice.security;
 
-import com.diabeaten.edgeservice.model.dto.Role;
-import com.diabeaten.edgeservice.model.dto.User;
+import com.diabeaten.edgeservice.model.Role;
+import com.diabeaten.edgeservice.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

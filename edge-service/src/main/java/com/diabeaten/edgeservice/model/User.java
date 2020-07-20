@@ -1,4 +1,4 @@
-package com.diabeaten.edgeservice.model.dto;
+package com.diabeaten.edgeservice.model;
 
 import java.util.HashSet;
 import java.util.Objects;
