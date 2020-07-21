@@ -15,6 +15,12 @@ public class PatientController implements IPatientController {
     @Autowired
     private PatientService patientService;
 
+
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
+        return patientService.getAllUsers();
+    }
+
     @GetMapping("/patients")
     @Override
     public List<User> getAll() {

@@ -12,7 +12,8 @@ public class NewUserDTO {
     @NotNull(message = "Password must be valid")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message = "You must provide a valid password")
     String password;
-    UserType type;
+    @NotNull
+    String name;
 
     public String getUsername() {
         return username;
@@ -30,11 +31,11 @@ public class NewUserDTO {
         this.password = password;
     }
 
-    public UserType getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public void setType(UserType type) {
-        this.type = type;
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -14,6 +14,8 @@ public class NewPatientDTO {
     @NotNull(message = "Password must be valid")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message = "You must provide a valid password")
     String password;
+    @NotNull
+    private String name;
     private List<RatioDTO> ratios;
     private List<SensibilityDTO> sensibilities;
     @DecimalMin(value = "0")
@@ -68,5 +70,13 @@ public class NewPatientDTO {
 
     public void setDIA(BigDecimal DIA) {
         this.DIA = DIA;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -16,6 +16,24 @@ public interface UserClient {
     @GetMapping("/users/get-by")
     public User getBy(@RequestHeader(name = "Authorization") String token, @RequestParam(name = "username", required = false) String username, @RequestParam(name = "id", required = false) Long id);
 
+    /*
     @PostMapping("/users")
     public User createUser(@RequestHeader(name = "Authorization") String token, @RequestBody NewUserDTO newUserDTO);
+     */
+
+
+    @GetMapping("/patients")
+    public List<User> getPatients(@RequestHeader(name = "Authorization") String token);
+
+    @GetMapping("/patients/{id}")
+    public User getPatientById(@RequestHeader(name = "Authorization") String token, @PathVariable(name = "id") Long id);
+
+    @PostMapping("/patients")
+    public User createPatient(@RequestHeader(name = "Authorization") String token, @RequestBody NewUserDTO newUserDTO);
+
+    @GetMapping("/monitors")
+    public List<User> getMonitors(@RequestHeader(name = "Authorization") String token);
+
+    @GetMapping("/monitors/{id}")
+    public User getMonitorById(@RequestHeader(name = "Authorization") String token, @PathVariable(name = "id") Long id);
 }

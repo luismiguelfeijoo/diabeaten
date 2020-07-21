@@ -3,52 +3,46 @@ package com.diabeaten.userservice.service;
 import com.diabeaten.userservice.controller.dto.NewUserDTO;
 import com.diabeaten.userservice.exceptions.DuplicatedUsernameException;
 import com.diabeaten.userservice.exceptions.NoSuchUserException;
+import com.diabeaten.userservice.model.Patient;
 import com.diabeaten.userservice.model.Role;
 import com.diabeaten.userservice.model.User;
+import com.diabeaten.userservice.repository.PatientRepository;
 import com.diabeaten.userservice.repository.RoleRepository;
-import com.diabeaten.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class UserService {
+public class PatientService {
     @Autowired
-    private UserRepository userRepository;
+    private PatientRepository patientRepository;
     @Autowired
     private RoleRepository roleRepository;
 
-    public User getByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new NoSuchUserException("There's no user with provided username"));
+    public List<Patient> getAll() {
+        return patientRepository.findAll();
     }
 
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public Patient getById(Long id) {
+        return patientRepository.findById(id).orElseThrow(() -> new NoSuchUserException("There's no user with provided username"));
     }
 
-    /*
     @Transactional
-    public User create(NewUserDTO user) {
-        User newUser = new User(user.getUsername(), user.getPassword());
+    public Patient create(NewUserDTO newUserDTO) {
+        Patient newPatient = new Patient(newUserDTO.getUsername(), newUserDTO.getPassword(), newUserDTO.getName());
         Role role = new Role();
-        role.setRole("ROLE_" + user.getType().toString());
-        role.setUser(newUser);
-        User result = null;
+        role.setRole("ROLE_PATIENT");
+        role.setUser(newPatient);
+        Patient result = null;
         try {
-            result = userRepository.save(newUser);
+            result = patientRepository.save(newPatient);
         } catch (DataIntegrityViolationException e) {
             throw new DuplicatedUsernameException("There's already an user with the provided username");
         }
         roleRepository.save(role);
         return result;
-    }
-     */
-
-    public User getById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new NoSuchUserException("There's no user with provided id"));
     }
 }

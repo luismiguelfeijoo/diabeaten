@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 public interface IUserController {
-    public User createUser(@RequestBody NewUserDTO newUser);
+    // public User createUser(@RequestBody NewUserDTO newUser);
     public List<User> getUsers();
-    public User getByUsername(String username, Long id);
+    public User getBy(String username, Long id);
 }

@@ -23,7 +23,7 @@ public class UserController implements IUserController {
 
     @GetMapping("/users/get-by")
     @Override
-    public User getByUsername(@RequestParam(name = "username", required = false) String username, @RequestParam(name = "id", required = false) Long id) {
+    public User getBy(@RequestParam(name = "username", required = false) String username, @RequestParam(name = "id", required = false) Long id) {
         if (username != null) {
             return userService.getByUsername(username);
         } else if (id != null) {
@@ -34,9 +34,11 @@ public class UserController implements IUserController {
 
     // create new users
 
+    /*
     @PostMapping("/users")
     @Override
     public User createUser(@RequestBody @Valid NewUserDTO newUser) {
         return userService.create(newUser);
     }
+     */
 }

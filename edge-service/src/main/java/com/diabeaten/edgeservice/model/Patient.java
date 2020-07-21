@@ -7,6 +7,7 @@ public class Patient {
     private Long id;
     private String username;
     private BigDecimal totalBasal;
+    private BigDecimal DIA;
     private List<Ratio> carbRatios;
     private List<Sensibility> sensibilities;
 
@@ -32,6 +33,14 @@ public class Patient {
 
     public void setTotalBasal(BigDecimal totalBasal) {
         this.totalBasal = totalBasal;
+    }
+
+    public BigDecimal getDIA() {
+        return DIA;
+    }
+
+    public void setDIA(BigDecimal DIA) {
+        this.DIA = DIA;
     }
 
     public List<Ratio> getCarbRatios() {

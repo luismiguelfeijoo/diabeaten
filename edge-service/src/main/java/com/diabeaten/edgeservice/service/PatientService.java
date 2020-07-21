@@ -28,13 +28,13 @@ public class PatientService {
     public List<User> getAll() {
         String userToken = "Bearer " + jwtUtil.generateToken("user-service");
         //filter by patients
-        return userClient.getAll(userToken);
+        return userClient.getPatients(userToken);
     }
 
     public Patient getById(Long id) {
         String userToken = "Bearer " + jwtUtil.generateToken("user-service");
         String informationToken = "Bearer " + jwtUtil.generateToken("information-service");
-        User user = userClient.getBy(userToken, null, id);
+        User user = userClient.getPatientById(userToken, id);
         Information userInformation = informationClient.getById(informationToken, id);
         Patient patient = new Patient();
         patient.setId(user.getId());
@@ -42,6 +42,7 @@ public class PatientService {
         patient.setTotalBasal(userInformation.getTotalBasal());
         patient.setSensibilities(userInformation.getSensibilities());
         patient.setCarbRatios(userInformation.getCarbRatios());
+        patient.setDIA(userInformation.getDIA());
         return patient;
     }
 
@@ -51,8 +52,8 @@ public class PatientService {
         NewUserDTO newUserDTO = new NewUserDTO();
         newUserDTO.setUsername(newPatientDTO.getUsername());
         newUserDTO.setPassword(newPatientDTO.getPassword());
-        newUserDTO.setType(UserType.PATIENT);
-        User createdUser = userClient.createUser(userToken, newUserDTO);
+        newUserDTO.setName(newPatientDTO.getName());
+        User createdUser = userClient.createPatient(userToken, newUserDTO);
         InformationDTO informationDTO = new InformationDTO();
         informationDTO.setTotalBasal(newPatientDTO.getTotalBasal());
         informationDTO.setDIA(newPatientDTO.getDIA());
@@ -64,16 +65,13 @@ public class PatientService {
         return createdUser;
     }
 
-    public User create(NewUserDTO newUserDTO) {
-        String userToken = "Bearer " + jwtUtil.generateToken("user-service");
-        return userClient.createUser(userToken, newUserDTO);
-    }
-
+    /*
     public Information addInformation(InformationDTO informationDTO) {
         String informationToken = "Bearer " + jwtUtil.generateToken("information-service");
         System.out.println(informationDTO.getRatios().get(0).getEndHour());
         return informationClient.create(informationToken, informationDTO);
     }
+     */
 
     public List<Glucose> getGlucoseByUserId(Long id) {
         String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
@@ -82,7 +80,9 @@ public class PatientService {
 
     public Glucose addGlucose(Long id, GlucoseDTO glucoseDTO) {
         String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
-        glucoseDTO.setUserId(id);
+        String userToken = "Bearer " + jwtUtil.generateToken("user-service");
+        User user = userClient.getPatientById(userToken, id);
+        glucoseDTO.setUserId(user.getId());
         return glucoseBolusClient.create(gcToken, glucoseDTO);
     }
 
@@ -93,7 +93,15 @@ public class PatientService {
 
     public Bolus addBolus(Long id, BolusDTO bolusDTO) {
         String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
-        bolusDTO.setUserId(id);
+        String userToken = "Bearer " + jwtUtil.generateToken("user-service");
+        User user = userClient.getPatientById(userToken, id);
+        bolusDTO.setUserId(user.getId());
         return glucoseBolusClient.create(gcToken, bolusDTO);
+    }
+
+    public List<User> getAllUsers() {
+        String userToken = "Bearer " + jwtUtil.generateToken("user-service");
+        //filter by patients
+        return userClient.getAll(userToken);
     }
 }
