@@ -14,10 +14,10 @@ import java.util.List;
 public interface IPatientController {
     // Must be replaced with Patien when created
     public List<User> getAll();
-    public Patient getById(Long id);
+    public Patient getById(User user, Long id);
     public User create(NewPatientDTO newPatientDTO);
-    public List<Glucose> getGlucose(Long userId);
-    public Glucose addGlucose(Long userId, GlucoseDTO glucoseDTO);
-    public List<Bolus> getBolus(Long userId);
-    public Bolus addBolus(Long userId, BolusDTO bolusDTO);
+    public List<Glucose> getGlucose(User user, Long userId);
+    public Glucose addGlucose(User user, Long userId, GlucoseDTO glucoseDTO);
+    public List<Bolus> getBolus(User user, Long userId);
+    public Bolus addBolus(User user, Long userId, BolusDTO bolusDTO);
 }

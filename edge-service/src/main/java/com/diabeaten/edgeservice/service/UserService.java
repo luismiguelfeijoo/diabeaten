@@ -30,10 +30,10 @@ public class UserService implements UserDetailsService {
         System.out.println("Search user with username: " + username);
         try {
             User user = userClient.getBy(userToken, username, null);
-            System.out.println(user);
+            //System.out.println(user);
             return new CustomSecuredUser(user);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+           // System.out.println(e.getMessage());
             throw new UsernameNotFoundException("Invalid username/password combination.");
         }
 

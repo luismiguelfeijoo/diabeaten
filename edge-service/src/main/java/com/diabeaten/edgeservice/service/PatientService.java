@@ -5,6 +5,7 @@ import com.diabeaten.edgeservice.client.InformationClient;
 import com.diabeaten.edgeservice.client.UserClient;
 import com.diabeaten.edgeservice.client.dto.*;
 import com.diabeaten.edgeservice.enums.UserType;
+import com.diabeaten.edgeservice.exception.AccessNotAllowedException;
 import com.diabeaten.edgeservice.model.*;
 import com.diabeaten.edgeservice.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +32,15 @@ public class PatientService {
         return userClient.getPatients(userToken);
     }
 
-    public Patient getById(Long id) {
+    public Patient getById(User user, Long id) {
+        if (!user.hasAccess(id)) throw new AccessNotAllowedException("You can't access this route");
         String userToken = "Bearer " + jwtUtil.generateToken("user-service");
         String informationToken = "Bearer " + jwtUtil.generateToken("information-service");
-        User user = userClient.getPatientById(userToken, id);
+        User foundUser = userClient.getPatientById(userToken, id);
         Information userInformation = informationClient.getById(informationToken, id);
         Patient patient = new Patient();
-        patient.setId(user.getId());
-        patient.setUsername(user.getUsername());
+        patient.setId(foundUser.getId());
+        patient.setUsername(foundUser.getUsername());
         patient.setTotalBasal(userInformation.getTotalBasal());
         patient.setSensibilities(userInformation.getSensibilities());
         patient.setCarbRatios(userInformation.getCarbRatios());
@@ -73,29 +75,33 @@ public class PatientService {
     }
      */
 
-    public List<Glucose> getGlucoseByUserId(Long id) {
+    public List<Glucose> getGlucoseByUserId(User user, Long id) {
+        if (!user.hasAccess(id)) throw new AccessNotAllowedException("You can't access this route");
         String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
         return glucoseBolusClient.getByUserId(gcToken, id);
     }
 
-    public Glucose addGlucose(Long id, GlucoseDTO glucoseDTO) {
+    public Glucose addGlucose(User user, Long id, GlucoseDTO glucoseDTO) {
+        if (!user.hasAccess(id)) throw new AccessNotAllowedException("You can't access this route");
         String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
         String userToken = "Bearer " + jwtUtil.generateToken("user-service");
-        User user = userClient.getPatientById(userToken, id);
-        glucoseDTO.setUserId(user.getId());
+        User foundUser = userClient.getPatientById(userToken, id);
+        glucoseDTO.setUserId(foundUser.getId());
         return glucoseBolusClient.create(gcToken, glucoseDTO);
     }
 
-    public List<Bolus> getBolusByUserId(Long id) {
+    public List<Bolus> getBolusByUserId(User user, Long id) {
+        if (!user.hasAccess(id)) throw new AccessNotAllowedException("You can't access this route");
         String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
         return glucoseBolusClient.getBy(gcToken, id, null);
     }
 
-    public Bolus addBolus(Long id, BolusDTO bolusDTO) {
+    public Bolus addBolus(User user, Long id, BolusDTO bolusDTO) {
+        if (!user.hasAccess(id)) throw new AccessNotAllowedException("You can't access this route");
         String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
         String userToken = "Bearer " + jwtUtil.generateToken("user-service");
-        User user = userClient.getPatientById(userToken, id);
-        bolusDTO.setUserId(user.getId());
+        User foundUser = userClient.getPatientById(userToken, id);
+        bolusDTO.setUserId(foundUser.getId());
         return glucoseBolusClient.create(gcToken, bolusDTO);
     }
 

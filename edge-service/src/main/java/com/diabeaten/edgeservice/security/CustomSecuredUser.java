@@ -27,9 +27,9 @@ public class CustomSecuredUser extends User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new HashSet<>(); //Authority son los roles que tendrá nuestro user
         Set<Role> roles = this.getRoles();//cada user tiene un set que roles es eso que estamos definindo
-        System.out.println(this);
+        // System.out.println(this);
         for (Role role : roles) {
-            System.out.println(role.getRole());
+            // System.out.println(role.getRole());
             authorities.add(new SimpleGrantedAuthority(role.getRole()));
         }
         return authorities;

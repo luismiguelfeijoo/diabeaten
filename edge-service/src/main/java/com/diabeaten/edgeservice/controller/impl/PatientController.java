@@ -5,6 +5,7 @@ import com.diabeaten.edgeservice.controller.interfaces.IPatientController;
 import com.diabeaten.edgeservice.model.*;
 import com.diabeaten.edgeservice.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,7 +15,6 @@ import java.util.List;
 public class PatientController implements IPatientController {
     @Autowired
     private PatientService patientService;
-
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
@@ -35,32 +35,32 @@ public class PatientController implements IPatientController {
 
     @GetMapping("/patients/{id}")
     @Override
-    public Patient getById(@PathVariable(name = "id") Long id ) {
-        return patientService.getById(id);
+    public Patient getById(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id ) {
+        return patientService.getById(user, id);
     }
 
     @GetMapping("/patients/{id}/glucose")
     @Override
-    public List<Glucose> getGlucose(@PathVariable(name = "id") Long id ) {
-        return patientService.getGlucoseByUserId(id);
+    public List<Glucose> getGlucose(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id ) {
+        return patientService.getGlucoseByUserId(user, id);
     }
 
     @PostMapping("/patients/{id}/glucose")
     @Override
-    public Glucose addGlucose(@PathVariable(name = "id") Long id, @RequestBody GlucoseDTO glucoseDTO) {
-        return patientService.addGlucose(id, glucoseDTO);
+    public Glucose addGlucose(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id, @RequestBody GlucoseDTO glucoseDTO) {
+        return patientService.addGlucose(user, id, glucoseDTO);
     }
 
     @GetMapping("/patients/{id}/bolus")
     @Override
-    public List<Bolus> getBolus(@PathVariable(name = "id") Long id ) {
-        return patientService.getBolusByUserId(id);
+    public List<Bolus> getBolus(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id ) {
+        return patientService.getBolusByUserId(user, id);
     }
 
     @PostMapping("/patients/{id}/bolus")
     @Override
-    public Bolus addBolus(@PathVariable(name = "id") Long id, @RequestBody BolusDTO bolusDTO) {
-        return patientService.addBolus(id, bolusDTO);
+    public Bolus addBolus(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id, @RequestBody BolusDTO bolusDTO) {
+        return patientService.addBolus(user, id, bolusDTO);
     }
 
 
