@@ -6,11 +6,17 @@ import com.diabeaten.edgeservice.client.UserClient;
 import com.diabeaten.edgeservice.client.dto.*;
 import com.diabeaten.edgeservice.enums.UserType;
 import com.diabeaten.edgeservice.exception.AccessNotAllowedException;
+import com.diabeaten.edgeservice.exception.RatioNotAvailableException;
 import com.diabeaten.edgeservice.model.*;
+import com.diabeaten.edgeservice.util.DateOperations;
+import com.diabeaten.edgeservice.util.IOBCalculator;
 import com.diabeaten.edgeservice.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -110,4 +116,34 @@ public class PatientService {
         //filter by patients
         return userClient.getAll(userToken);
     }
+
+    public Bolus calculateBolus(User user, Long id, BolusParamsDTO bolusParamsDTO) {
+        if (!user.hasAccess(id)) throw new AccessNotAllowedException("You can't access this route");
+        String userToken = "Bearer " + jwtUtil.generateToken("user-service");
+        String informationToken = "Bearer " + jwtUtil.generateToken("information-service");
+        String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
+        User foundUser = userClient.getPatientById(userToken, id);
+        Information userInformation = informationClient.getById(informationToken, id);
+        Date diaDate = DateOperations.dateMinusHours(bolusParamsDTO.getDate(), userInformation.getDIA());
+        List<Bolus> bolusList = glucoseBolusClient.getBy(gcToken, id, diaDate);
+        BigDecimal ratio = userInformation.getCarbRatios().stream()
+                .filter(possibleRatio -> DateOperations.betweenHours(possibleRatio.getStartHour(), possibleRatio.getEndHour(), bolusParamsDTO.getDate()))
+                .findFirst().orElseThrow(() -> new RatioNotAvailableException("There's no ratio available for this time period")).getRatioInGrams();
+        BigDecimal sensibility = userInformation.getSensibilities().stream()
+                .filter(possibleSensibility -> DateOperations.betweenHours(possibleSensibility.getStartHour(), possibleSensibility.getEndHour(), bolusParamsDTO.getDate()))
+                .findFirst().orElseThrow(() -> new RatioNotAvailableException("There's no ratio available for this time period")).getSensibility();
+        BigDecimal chBolus = bolusParamsDTO.getCarbs().divide(ratio, 2, RoundingMode.HALF_EVEN);
+        BigDecimal correctionBolus = (bolusParamsDTO.getGlucose().subtract(new BigDecimal("100.00"))).divide(sensibility, 2, RoundingMode.HALF_EVEN);
+        BigDecimal iob = BigDecimal.ZERO;
+        if (correctionBolus.compareTo(BigDecimal.ZERO) > 0) {
+            for (Bolus bolus : bolusList) {
+                BigDecimal totalInsulin = bolus.getChBolus().add(bolus.getCorrectionBolus());
+                iob = IOBCalculator.calculateIOB(userInformation.getDIA(), bolus.getChBolus().add(bolus.getCorrectionBolus()), bolus.getDate(), bolusParamsDTO.getDate());
+                correctionBolus = correctionBolus.subtract(iob);
+            }
+            if (correctionBolus.compareTo(BigDecimal.ZERO) < 0) correctionBolus = BigDecimal.ZERO;
+        }
+        return new Bolus(id, bolusParamsDTO.getDate(), bolusParamsDTO.getGlucose(), correctionBolus, chBolus);
+    }
+
 }

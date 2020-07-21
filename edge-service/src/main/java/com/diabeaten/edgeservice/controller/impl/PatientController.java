@@ -63,6 +63,11 @@ public class PatientController implements IPatientController {
         return patientService.addBolus(user, id, bolusDTO);
     }
 
+    @PostMapping("/patients/{id}/bolus/calculate")
+
+    public Bolus calculateBolus(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id, @RequestBody BolusParamsDTO bolusParamsDTO) {
+        return patientService.calculateBolus(user, id, bolusParamsDTO);
+    }
 
     /*
     @PostMapping("/patients")
