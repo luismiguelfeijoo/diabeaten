@@ -1,14 +1,11 @@
 package com.diabeaten.edgeservice.service;
 
+import com.diabeaten.edgeservice.client.GlucoseBolusClient;
 import com.diabeaten.edgeservice.client.InformationClient;
 import com.diabeaten.edgeservice.client.UserClient;
-import com.diabeaten.edgeservice.client.dto.InformationDTO;
-import com.diabeaten.edgeservice.client.dto.NewPatientDTO;
-import com.diabeaten.edgeservice.client.dto.NewUserDTO;
+import com.diabeaten.edgeservice.client.dto.*;
 import com.diabeaten.edgeservice.enums.UserType;
-import com.diabeaten.edgeservice.model.Information;
-import com.diabeaten.edgeservice.model.Patient;
-import com.diabeaten.edgeservice.model.User;
+import com.diabeaten.edgeservice.model.*;
 import com.diabeaten.edgeservice.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +16,10 @@ import java.util.List;
 public class PatientService {
     @Autowired
     private UserClient userClient;
-
     @Autowired
     private InformationClient informationClient;
+    @Autowired
+    private GlucoseBolusClient glucoseBolusClient;
 
     @Autowired
     JwtUtil jwtUtil;
@@ -36,7 +34,7 @@ public class PatientService {
     public Patient getById(Long id) {
         String userToken = "Bearer " + jwtUtil.generateToken("user-service");
         String informationToken = "Bearer " + jwtUtil.generateToken("information-service");
-        User user = userClient.getBy(informationToken, null, id);
+        User user = userClient.getBy(userToken, null, id);
         Information userInformation = informationClient.getById(informationToken, id);
         Patient patient = new Patient();
         patient.setId(user.getId());
@@ -57,6 +55,7 @@ public class PatientService {
         User createdUser = userClient.createUser(userToken, newUserDTO);
         InformationDTO informationDTO = new InformationDTO();
         informationDTO.setTotalBasal(newPatientDTO.getTotalBasal());
+        informationDTO.setDIA(newPatientDTO.getDIA());
         informationDTO.setSensibilities(newPatientDTO.getSensibilities());
         informationDTO.setRatios(newPatientDTO.getRatios());
         informationDTO.setUserId(createdUser.getId());
@@ -74,5 +73,27 @@ public class PatientService {
         String informationToken = "Bearer " + jwtUtil.generateToken("information-service");
         System.out.println(informationDTO.getRatios().get(0).getEndHour());
         return informationClient.create(informationToken, informationDTO);
+    }
+
+    public List<Glucose> getGlucoseByUserId(Long id) {
+        String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
+        return glucoseBolusClient.getByUserId(gcToken, id);
+    }
+
+    public Glucose addGlucose(Long id, GlucoseDTO glucoseDTO) {
+        String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
+        glucoseDTO.setUserId(id);
+        return glucoseBolusClient.create(gcToken, glucoseDTO);
+    }
+
+    public List<Bolus> getBolusByUserId(Long id) {
+        String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
+        return glucoseBolusClient.getBy(gcToken, id, null);
+    }
+
+    public Bolus addBolus(Long id, BolusDTO bolusDTO) {
+        String gcToken = "Bearer " + jwtUtil.generateToken("glucose-bolus-service");
+        bolusDTO.setUserId(id);
+        return glucoseBolusClient.create(gcToken, bolusDTO);
     }
 }

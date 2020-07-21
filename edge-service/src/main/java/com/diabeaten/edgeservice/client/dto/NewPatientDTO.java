@@ -1,5 +1,6 @@
 package com.diabeaten.edgeservice.client.dto;
 
+import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -17,6 +18,9 @@ public class NewPatientDTO {
     private List<SensibilityDTO> sensibilities;
     @DecimalMin(value = "0")
     private BigDecimal totalBasal;
+    @DecimalMin(value = "0")
+    @DecimalMax(value = "5")
+    private BigDecimal DIA;
 
     public String getUsername() {
         return username;
@@ -56,5 +60,13 @@ public class NewPatientDTO {
 
     public void setTotalBasal(BigDecimal totalBasal) {
         this.totalBasal = totalBasal;
+    }
+
+    public BigDecimal getDIA() {
+        return DIA;
+    }
+
+    public void setDIA(BigDecimal DIA) {
+        this.DIA = DIA;
     }
 }

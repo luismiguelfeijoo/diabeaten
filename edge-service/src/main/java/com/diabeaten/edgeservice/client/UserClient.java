@@ -13,7 +13,7 @@ public interface UserClient {
     @GetMapping("/users")
     public List<User> getAll(@RequestHeader(name = "Authorization") String token);
 
-    @GetMapping("/users")
+    @GetMapping("/users/get-by")
     public User getBy(@RequestHeader(name = "Authorization") String token, @RequestParam(name = "username", required = false) String username, @RequestParam(name = "id", required = false) Long id);
 
     @PostMapping("/users")

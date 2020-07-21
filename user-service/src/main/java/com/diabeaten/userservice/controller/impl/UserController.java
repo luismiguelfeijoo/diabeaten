@@ -21,7 +21,7 @@ public class UserController implements IUserController {
         return userService.getAll();
     }
 
-    @GetMapping("/users")
+    @GetMapping("/users/get-by")
     @Override
     public User getByUsername(@RequestParam(name = "username", required = false) String username, @RequestParam(name = "id", required = false) Long id) {
         if (username != null) {

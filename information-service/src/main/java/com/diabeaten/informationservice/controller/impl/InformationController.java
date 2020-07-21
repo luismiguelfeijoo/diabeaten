@@ -18,7 +18,7 @@ public class InformationController implements IInformationController {
     @GetMapping("/information/{id}")
     @Override
     public Information getById(@PathVariable(name = "id") Long id) {
-        return null;
+        return informationService.getById(id);
     }
 
     @PostMapping("/information")

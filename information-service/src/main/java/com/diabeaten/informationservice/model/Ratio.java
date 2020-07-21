@@ -2,6 +2,7 @@ package com.diabeaten.informationservice.model;
 
 import com.diabeaten.informationservice.exceptions.InvalidHourFormatException;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Ratio {
     private Time endHour;
     private BigDecimal ratioInGrams;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Information informationUser;
 

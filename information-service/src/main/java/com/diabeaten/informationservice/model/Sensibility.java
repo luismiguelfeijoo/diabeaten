@@ -2,6 +2,7 @@ package com.diabeaten.informationservice.model;
 
 import com.diabeaten.informationservice.exceptions.InvalidHourFormatException;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ public class Sensibility {
     private Time endHour;
     private BigDecimal sensibility;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Information informationUser;
 

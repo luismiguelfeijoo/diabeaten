@@ -3,6 +3,7 @@ package com.diabeaten.informationservice.service;
 import com.diabeaten.informationservice.controller.dto.InformationDTO;
 import com.diabeaten.informationservice.controller.dto.RatioDTO;
 import com.diabeaten.informationservice.controller.dto.SensibilityDTO;
+import com.diabeaten.informationservice.exceptions.InformationNotFoundException;
 import com.diabeaten.informationservice.exceptions.InvalidHourFormatException;
 import com.diabeaten.informationservice.model.Information;
 import com.diabeaten.informationservice.model.Ratio;
@@ -29,24 +30,25 @@ public class InformationService {
 
     @Transactional
     public Information create(InformationDTO informationDTO) {
-        Information newInformation = new Information(informationDTO.getUserId(), informationDTO.getTotalBasal());
+        Information newInformation = new Information(informationDTO.getUserId(), informationDTO.getTotalBasal(), informationDTO.getDIA());
         List<Ratio> ratioList = new ArrayList<>();
         List<Sensibility> sensibilityList = new ArrayList<>();
         for (RatioDTO ratio : informationDTO.getRatios()) {
-            System.out.println(ratio.getEndHour());
             Ratio newRatio = new Ratio(ratio.getStartHour(), ratio.getEndHour(), ratio.getRatioInGrams());
-            System.out.println(newRatio.getEndHour());
             newRatio.setInformationUser(newInformation);
             ratioList.add(newRatio);
         }
         for (SensibilityDTO sensibilityDTO : informationDTO.getSensibilities()) {
             Sensibility newSensibility = new Sensibility(sensibilityDTO.getStartHour(), sensibilityDTO.getEndHour(), sensibilityDTO.getSensibility());
             newSensibility.setInformationUser(newInformation);
-            System.out.println(newSensibility.getEndHour());
             sensibilityList.add(newSensibility);
         }
         ratioRepository.saveAll(ratioList);
         sensibilityRepository.saveAll(sensibilityList);
         return informationRepository.save(newInformation);
+    }
+
+    public Information getById(Long id) {
+        return informationRepository.findById(id).orElseThrow(() -> new InformationNotFoundException("There's no information with provided id"));
     }
 }

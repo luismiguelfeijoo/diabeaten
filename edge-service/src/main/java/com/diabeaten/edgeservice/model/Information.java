@@ -7,15 +7,17 @@ public class Information {
 
     private Long userId;
     private BigDecimal totalBasal;
+    private BigDecimal DIA;
     private List<Ratio> carbRatios;
     private List<Sensibility> sensibilities;
 
     public Information() {
     }
 
-    public Information(Long userId, BigDecimal totalBasal) {
-        this.userId = userId;
-        this.totalBasal = totalBasal;
+    public Information(Long userId, BigDecimal totalBasal, BigDecimal DIA) {
+        setUserId(userId);
+        setTotalBasal(totalBasal);
+        setDIA(DIA);
     }
 
     public Long getUserId() {
@@ -32,6 +34,14 @@ public class Information {
 
     public void setTotalBasal(BigDecimal totalBasal) {
         this.totalBasal = totalBasal;
+    }
+
+    public BigDecimal getDIA() {
+        return DIA;
+    }
+
+    public void setDIA(BigDecimal DIA) {
+        this.DIA = DIA;
     }
 
     public List<Ratio> getCarbRatios() {
