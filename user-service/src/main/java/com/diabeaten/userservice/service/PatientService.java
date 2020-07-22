@@ -1,6 +1,7 @@
 package com.diabeaten.userservice.service;
 
 import com.diabeaten.userservice.controller.dto.NewUserDTO;
+import com.diabeaten.userservice.controller.dto.UpdateUserDTO;
 import com.diabeaten.userservice.exceptions.DuplicatedUsernameException;
 import com.diabeaten.userservice.exceptions.NoSuchUserException;
 import com.diabeaten.userservice.model.Patient;
@@ -44,5 +45,12 @@ public class PatientService {
         }
         roleRepository.save(role);
         return result;
+    }
+
+    public Patient update(Long id, UpdateUserDTO updateUserDTO) {
+        Patient foundPatient = patientRepository.findById(id).orElseThrow(() -> new NoSuchUserException("There's no user with provided username"));
+        foundPatient.setName(updateUserDTO.getName());
+        foundPatient.setUsername(updateUserDTO.getUsername());
+        return patientRepository.save(foundPatient);
     }
 }

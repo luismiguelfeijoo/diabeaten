@@ -2,6 +2,7 @@ package com.diabeaten.informationservice.controller.impl;
 
 import com.diabeaten.informationservice.controller.dto.InformationDTO;
 import com.diabeaten.informationservice.controller.dto.RatioDTO;
+import com.diabeaten.informationservice.controller.dto.UpdateInformationDTO;
 import com.diabeaten.informationservice.controller.interfaces.IInformationController;
 import com.diabeaten.informationservice.model.Information;
 import com.diabeaten.informationservice.service.InformationService;
@@ -19,6 +20,12 @@ public class InformationController implements IInformationController {
     @Override
     public Information getById(@PathVariable(name = "id") Long id) {
         return informationService.getById(id);
+    }
+
+    @PutMapping("/information/{id}")
+    @Override
+    public Information update(@PathVariable(name = "id") Long id, @RequestBody UpdateInformationDTO updateInformationDTO) {
+        return informationService.update(id, updateInformationDTO);
     }
 
     @PostMapping("/information")

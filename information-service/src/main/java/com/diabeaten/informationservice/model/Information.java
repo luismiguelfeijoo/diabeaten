@@ -1,9 +1,11 @@
 package com.diabeaten.informationservice.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,10 +15,10 @@ public class Information {
     private BigDecimal totalBasal;
     private BigDecimal DIA;
 
-    @OneToMany(mappedBy = "informationUser")
-    private List<Ratio> carbRatios;
-    @OneToMany(mappedBy = "informationUser")
-    private List<Sensibility> sensibilities;
+    @OneToMany(mappedBy = "informationUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ratio> carbRatios = new ArrayList<Ratio>();
+    @OneToMany(mappedBy = "informationUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sensibility> sensibilities = new ArrayList<Sensibility>();
 
     public Information() {
     }

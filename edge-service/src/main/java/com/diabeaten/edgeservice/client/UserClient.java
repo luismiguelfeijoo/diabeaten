@@ -1,6 +1,7 @@
 package com.diabeaten.edgeservice.client;
 
 import com.diabeaten.edgeservice.client.dto.NewUserDTO;
+import com.diabeaten.edgeservice.client.dto.UpdateUserDTO;
 import com.diabeaten.edgeservice.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,9 @@ public interface UserClient {
 
     @GetMapping("/patients/{id}")
     public User getPatientById(@RequestHeader(name = "Authorization") String token, @PathVariable(name = "id") Long id);
+
+    @PutMapping("/patients/{id}")
+    public User updatePatient(@RequestHeader(name = "Authorization") String token, @PathVariable(name = "id") Long id, @RequestBody UpdateUserDTO updateUserDTO);
 
     @PostMapping("/patients")
     public User createPatient(@RequestHeader(name = "Authorization") String token, @RequestBody NewUserDTO newUserDTO);

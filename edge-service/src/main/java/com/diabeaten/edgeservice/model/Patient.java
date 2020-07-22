@@ -6,9 +6,10 @@ import java.util.List;
 public class Patient {
     private Long id;
     private String username;
+    private String name;
     private BigDecimal totalBasal;
     private BigDecimal DIA;
-    private List<Ratio> carbRatios;
+    private List<Ratio> ratios;
     private List<Sensibility> sensibilities;
 
     public Long getId() {
@@ -43,12 +44,12 @@ public class Patient {
         this.DIA = DIA;
     }
 
-    public List<Ratio> getCarbRatios() {
-        return carbRatios;
+    public List<Ratio> getRatios() {
+        return ratios;
     }
 
-    public void setCarbRatios(List<Ratio> carbRatios) {
-        this.carbRatios = carbRatios;
+    public void setRatios(List<Ratio> ratios) {
+        this.ratios = ratios;
     }
 
     public List<Sensibility> getSensibilities() {
@@ -57,5 +58,13 @@ public class Patient {
 
     public void setSensibilities(List<Sensibility> sensibilities) {
         this.sensibilities = sensibilities;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

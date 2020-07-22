@@ -20,7 +20,7 @@ public class Sensibility {
     private BigDecimal sensibility;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Information informationUser;
 
     public Sensibility() {

@@ -1,13 +1,12 @@
 package com.diabeaten.edgeservice.controller.interfaces;
 
-import com.diabeaten.edgeservice.client.dto.BolusDTO;
-import com.diabeaten.edgeservice.client.dto.GlucoseDTO;
-import com.diabeaten.edgeservice.client.dto.NewPatientDTO;
-import com.diabeaten.edgeservice.client.dto.NewUserDTO;
+import com.diabeaten.edgeservice.client.dto.*;
 import com.diabeaten.edgeservice.model.Bolus;
 import com.diabeaten.edgeservice.model.Glucose;
 import com.diabeaten.edgeservice.model.Patient;
 import com.diabeaten.edgeservice.model.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -20,4 +19,5 @@ public interface IPatientController {
     public Glucose addGlucose(User user, Long userId, GlucoseDTO glucoseDTO);
     public List<Bolus> getBolus(User user, Long userId);
     public Bolus addBolus(User user, Long userId, BolusDTO bolusDTO);
+    public Patient update(User user, Long id, UpdatePatientDTO updatePatientDTO );
 }

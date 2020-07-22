@@ -1,9 +1,12 @@
+import { Ratio } from './ratio';
+import { Sensibility } from './sensibility';
+
 export class Patient {
   username: string;
   password: string;
   name: string;
-  ratios: any[];
-  sensibilities: any[];
+  ratios: Ratio[];
+  sensibilities: Sensibility[];
   totalBasal: number;
   dia: number;
 }

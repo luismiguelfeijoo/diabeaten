@@ -125,7 +125,7 @@ export class LoginComponent implements OnInit {
         (data) => {
           this.router.navigate(['/profile']);
           this.toastr.success(
-            `<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> Welcome back to DIABEATEN! ${data.username}`,
+            `Welcome back to DIABEATEN! ${data.username}`,
             '',
             {
               timeOut: 2000,
@@ -137,16 +137,12 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           this.error = error;
-          this.toastr.error(
-            `<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> Invalid Username or Password combination`,
-            '',
-            {
-              timeOut: 2000,
-              enableHtml: true,
-              toastClass: 'alert alert-danger alert-with-icon',
-              positionClass: 'toast-top-center',
-            }
-          );
+          this.toastr.error(`Invalid Username or Password combination`, '', {
+            timeOut: 2000,
+            enableHtml: true,
+            toastClass: 'alert alert-danger alert-with-icon',
+            positionClass: 'toast-top-center',
+          });
           this.disabledLogin = false;
           this.loading = false;
         }
@@ -160,8 +156,10 @@ export class LoginComponent implements OnInit {
       username: this.r.username.value,
       password: this.r.password.value,
       name: this.r.name.value,
-      ratios: [],
-      sensibilities: [],
+      ratios: [{ startHour: '00:00:00', endHour: '23:59:59', ratioInGrams: 0 }],
+      sensibilities: [
+        { startHour: '00:00:00', endHour: '23:59:59', sensibility: 0 },
+      ],
       totalBasal: 0,
       dia: 3,
     };
@@ -188,7 +186,7 @@ export class LoginComponent implements OnInit {
               (response) => {
                 this.router.navigate(['/profile']);
                 this.toastr.success(
-                  `<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> Welcome to DIABEATEN! ${response.username}`,
+                  `Welcome to DIABEATEN! ${response.username}, please take a minute to fill up your information`,
                   '',
                   {
                     timeOut: 2000,
@@ -201,7 +199,7 @@ export class LoginComponent implements OnInit {
               (error) => {
                 this.error = error;
                 this.toastr.error(
-                  `<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> Invalid Username or Password combination`,
+                  `Invalid Username or Password combination`,
                   '',
                   {
                     timeOut: 2000,
@@ -219,12 +217,12 @@ export class LoginComponent implements OnInit {
         (error) => {
           console.log(error);
           this.toastr.error(
-            `<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> ${error}`,
+            `${error ? 'Error creating user with the provided username' : ''}`,
             '',
             {
               timeOut: 2000,
               enableHtml: true,
-              toastClass: 'alert alert-success alert-with-icon',
+              toastClass: 'alert alert-danger alert-with-icon',
               positionClass: 'toast-top-center',
             }
           );

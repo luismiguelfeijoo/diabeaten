@@ -11,6 +11,7 @@ public class User {
     private Long id;
     private String username;
     private String password;
+    private String name;
     private Set<Role> roles = new HashSet<>();
 
     public User() {}
@@ -50,6 +51,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

@@ -47,9 +47,10 @@ public class PatientService {
         Patient patient = new Patient();
         patient.setId(foundUser.getId());
         patient.setUsername(foundUser.getUsername());
+        patient.setName(foundUser.getName());
         patient.setTotalBasal(userInformation.getTotalBasal());
         patient.setSensibilities(userInformation.getSensibilities());
-        patient.setCarbRatios(userInformation.getCarbRatios());
+        patient.setRatios(userInformation.getCarbRatios());
         patient.setDIA(userInformation.getDIA());
         return patient;
     }
@@ -71,6 +72,31 @@ public class PatientService {
         informationClient.create(informationToken, informationDTO);
         // see what to return
         return createdUser;
+    }
+
+    public Patient update(User user, Long id, UpdatePatientDTO updatePatientDTO) {
+        if (!user.hasAccess(id)) throw new AccessNotAllowedException("You can't access this route");
+        String userToken = "Bearer " + jwtUtil.generateToken("user-service");
+        String informationToken = "Bearer " + jwtUtil.generateToken("information-service");
+        UpdateUserDTO updateUserDTO = new UpdateUserDTO();
+        updateUserDTO.setName(updatePatientDTO.getName());
+        updateUserDTO.setUsername(updatePatientDTO.getUsername());
+        User updatedUser = userClient.updatePatient(userToken, id, updateUserDTO);
+        UpdateInformationDTO updateInformationDTO = new UpdateInformationDTO();
+        updateInformationDTO.setDia(updatePatientDTO.getDia());
+        updateInformationDTO.setTotalBasal(updatePatientDTO.getTotalBasal());
+        updateInformationDTO.setRatios(updatePatientDTO.getRatios());
+        updateInformationDTO.setSensibilities(updatePatientDTO.getSensibilities());
+        Information updatedInformation = informationClient.update(informationToken, id, updateInformationDTO);
+        Patient patient = new Patient();
+        patient.setId(updatedUser.getId());
+        patient.setUsername(updatedUser.getUsername());
+        patient.setName(updatedUser.getName());
+        patient.setTotalBasal(updatedInformation.getTotalBasal());
+        patient.setSensibilities(updatedInformation.getSensibilities());
+        patient.setRatios(updatedInformation.getCarbRatios());
+        patient.setDIA(updatedInformation.getDIA());
+        return patient;
     }
 
     /*
@@ -145,5 +171,6 @@ public class PatientService {
         }
         return new Bolus(id, bolusParamsDTO.getDate(), bolusParamsDTO.getGlucose(), correctionBolus, chBolus);
     }
+
 
 }

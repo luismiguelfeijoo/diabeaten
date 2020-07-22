@@ -20,7 +20,7 @@ public class Ratio {
     private BigDecimal ratioInGrams;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Information informationUser;
 
 

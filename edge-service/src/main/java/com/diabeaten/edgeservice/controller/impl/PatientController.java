@@ -39,6 +39,12 @@ public class PatientController implements IPatientController {
         return patientService.getById(user, id);
     }
 
+    @PutMapping("/patients/{id}")
+    @Override
+    public Patient update(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id, @RequestBody UpdatePatientDTO updatePatientDTO ) {
+        return patientService.update(user, id, updatePatientDTO);
+    }
+
     @GetMapping("/patients/{id}/glucose")
     @Override
     public List<Glucose> getGlucose(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id ) {

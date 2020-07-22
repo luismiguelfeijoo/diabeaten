@@ -1,6 +1,7 @@
 package com.diabeaten.userservice.controller.impl;
 
 import com.diabeaten.userservice.controller.dto.NewUserDTO;
+import com.diabeaten.userservice.controller.dto.UpdateUserDTO;
 import com.diabeaten.userservice.controller.interfaces.IPatientController;
 import com.diabeaten.userservice.model.Patient;
 import com.diabeaten.userservice.service.PatientService;
@@ -25,6 +26,12 @@ public class PatientController implements IPatientController {
     @Override
     public Patient getById(@PathVariable(name = "id") Long id) {
         return patientService.getById(id);
+    }
+
+    @PutMapping("/patients/{id}")
+    @Override
+    public Patient update(@PathVariable(name = "id") Long id, @RequestBody @Valid UpdateUserDTO updateUserDTO) {
+        return patientService.update(id, updateUserDTO);
     }
 
     @PostMapping("/patients")
