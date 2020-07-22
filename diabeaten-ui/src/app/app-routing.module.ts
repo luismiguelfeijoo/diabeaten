@@ -1,11 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ProfileComponent } from './profile/profile.component';
 
-
-const routes: Routes = [];
+const routes: Routes = [
+  /*{
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'login',
+  },*/
+  { path: 'profile', component: ProfileComponent },
+  /*{
+    path: 'leads',
+    component: LeadListComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },*/
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
