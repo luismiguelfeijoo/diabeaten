@@ -10,6 +10,10 @@ import {
 import { AuthenticationService } from '../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { User } from 'src/app/_models';
+import { environment } from 'src/environments/environment';
+import { Patient } from 'src/app/_models/patient';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +21,11 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  loading = false;
   disabledLogin = true;
   disabledRegister = true;
   rightPanel = false;
+  error = '';
   loginForm: FormGroup = new FormGroup({
     username: new FormControl(),
     password: new FormControl(),
@@ -36,10 +42,14 @@ export class LoginComponent implements OnInit {
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
+    if (this.authenticationService.userValue) {
+      this.router.navigate(['/profile']);
+    }
     this.loginForm = this.formBuilder.group({
       username: [
         '',
@@ -50,15 +60,7 @@ export class LoginComponent implements OnInit {
           ),
         ],
       ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$/
-          ),
-        ],
-      ],
+      password: ['', Validators.required],
     });
 
     this.registerForm = this.formBuilder.group({
@@ -104,7 +106,130 @@ export class LoginComponent implements OnInit {
     this.rightPanel = state;
   }
 
-  onSubmitLogin(): void {}
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.loginForm.controls;
+  }
 
-  onSubmitRegister(): void {}
+  get r() {
+    return this.registerForm.controls;
+  }
+
+  onSubmitLogin(): void {
+    this.loading = true;
+    this.disabledLogin = true;
+    this.authenticationService
+      .login(this.f.username.value, this.f.password.value)
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          this.router.navigate(['/profile']);
+          this.toastr.success(
+            `<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> Welcome back to DIABEATEN! ${data.username}`,
+            '',
+            {
+              timeOut: 2000,
+              enableHtml: true,
+              toastClass: 'alert alert-success alert-with-icon',
+              positionClass: 'toast-top-center',
+            }
+          );
+        },
+        (error) => {
+          this.error = error;
+          this.toastr.error(
+            `<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> Invalid Username or Password combination`,
+            '',
+            {
+              timeOut: 2000,
+              enableHtml: true,
+              toastClass: 'alert alert-danger alert-with-icon',
+              positionClass: 'toast-top-center',
+            }
+          );
+          this.disabledLogin = false;
+          this.loading = false;
+        }
+      );
+  }
+
+  onSubmitRegister(): void {
+    this.loading = true;
+    this.disabledRegister = true;
+    let newPatient: Patient = {
+      username: this.r.username.value,
+      password: this.r.password.value,
+      name: this.r.name.value,
+      ratios: [],
+      sensibilities: [],
+      totalBasal: 0,
+      dia: 3,
+    };
+    this.http
+      .post<User>(`${environment.apiUrl}/patients`, newPatient)
+      .subscribe(
+        (data) => {
+          // console.log(data);
+          /*
+          this.toastr.success(
+            `<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> Welcome to DIABEATEN! ${data.username}`,
+            '',
+            {
+              timeOut: 2000,
+              enableHtml: true,
+              toastClass: 'alert alert-success alert-with-icon',
+              positionClass: 'toast-top-center',
+            }
+            */
+          this.authenticationService
+            .login(newPatient.username, newPatient.password)
+            .pipe(first())
+            .subscribe(
+              (response) => {
+                this.router.navigate(['/profile']);
+                this.toastr.success(
+                  `<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> Welcome to DIABEATEN! ${response.username}`,
+                  '',
+                  {
+                    timeOut: 2000,
+                    enableHtml: true,
+                    toastClass: 'alert alert-success alert-with-icon',
+                    positionClass: 'toast-top-center',
+                  }
+                );
+              },
+              (error) => {
+                this.error = error;
+                this.toastr.error(
+                  `<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> Invalid Username or Password combination`,
+                  '',
+                  {
+                    timeOut: 2000,
+                    enableHtml: true,
+                    toastClass: 'alert alert-danger alert-with-icon',
+                    positionClass: 'toast-top-center',
+                  }
+                );
+                this.disabledLogin = false;
+                this.loading = false;
+              }
+            );
+          this.disabledRegister = false;
+        },
+        (error) => {
+          console.log(error);
+          this.toastr.error(
+            `<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> ${error}`,
+            '',
+            {
+              timeOut: 2000,
+              enableHtml: true,
+              toastClass: 'alert alert-success alert-with-icon',
+              positionClass: 'toast-top-center',
+            }
+          );
+          this.disabledRegister = false;
+        }
+      );
+  }
 }

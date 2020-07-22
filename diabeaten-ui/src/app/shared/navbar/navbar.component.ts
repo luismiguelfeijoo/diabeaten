@@ -8,6 +8,7 @@ import {
 import { ROUTES } from '../../sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { AuthenticationService } from 'src/app/_services';
 
 @Component({
   selector: 'app-navbar',
@@ -25,6 +26,7 @@ export class NavbarComponent implements OnInit {
   @ViewChild('navbar-cmp', { static: false }) button;
 
   constructor(
+    private authenticationService: AuthenticationService,
     location: Location,
     private renderer: Renderer2,
     private element: ElementRef,
@@ -104,5 +106,8 @@ export class NavbarComponent implements OnInit {
       navbar.classList.add('navbar-transparent');
       navbar.classList.remove('bg-white');
     }
+  }
+  logout() {
+    this.authenticationService.logout();
   }
 }

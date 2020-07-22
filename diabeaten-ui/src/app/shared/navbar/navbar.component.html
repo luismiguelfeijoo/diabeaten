@@ -41,7 +41,9 @@
             aria-labelledby="navbarDropdownMenuLink"
             class="dropdown-menu dropdown-menu-right"
           >
-            <a ngbDropdownItem href="javascript:void(0)">Logout</a>
+            <a (click)="logout()" ngbDropdownItem href="javascript:void(0)"
+              >Logout</a
+            >
           </div>
         </li>
       </ul>
