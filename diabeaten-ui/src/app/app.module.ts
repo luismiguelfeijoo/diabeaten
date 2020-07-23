@@ -15,6 +15,7 @@ import { UserLayoutComponent } from './layouts/user-layout/user-layout.component
 import { ProfileComponent } from './pages/profile/profile.component';
 import { BasicAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { LoginComponent } from './pages/login/login.component';
+import { RegistryComponent } from './pages/registry/registry.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { LoginComponent } from './pages/login/login.component';
     UserLayoutComponent,
     ProfileComponent,
     LoginComponent,
+    RegistryComponent,
   ],
   imports: [
     BrowserModule,
