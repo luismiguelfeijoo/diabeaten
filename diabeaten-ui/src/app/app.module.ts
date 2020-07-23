@@ -16,6 +16,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { BasicAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { LoginComponent } from './pages/login/login.component';
 import { RegistryComponent } from './pages/registry/registry.component';
+import { BolusCalculateComponent } from './pages/bolus-calculate/bolus-calculate.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { RegistryComponent } from './pages/registry/registry.component';
     ProfileComponent,
     LoginComponent,
     RegistryComponent,
+    BolusCalculateComponent,
   ],
   imports: [
     BrowserModule,

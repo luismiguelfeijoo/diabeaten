@@ -4,6 +4,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { AuthGuard } from './_helpers';
 import { LoginComponent } from './pages/login/login.component';
 import { RegistryComponent } from './pages/registry/registry.component';
+import { BolusCalculateComponent } from './pages/bolus-calculate/bolus-calculate.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,12 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bolus',
+    component: BolusCalculateComponent,
     pathMatch: 'full',
     canActivate: [AuthGuard],
   },
