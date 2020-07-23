@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/_services';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Glucose } from 'src/app/_models/glocuse';
@@ -21,6 +21,7 @@ import { createOfflineCompileUrlResolver } from '@angular/compiler';
   styleUrls: ['./registry.component.scss'],
 })
 export class RegistryComponent implements OnInit {
+  id;
   glucoseList: Glucose[];
   bolusList: Bolus[];
   modalRefence;
@@ -35,12 +36,19 @@ export class RegistryComponent implements OnInit {
     correctionBolus: new FormControl(),
   });
 
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Basic ${this.authenticationService.userValue.authdata}`,
+    }),
+  };
+
   open(content) {
     this.modalRefence = this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
     });
     this.modalRefence.result.then((result) => {
-      console.log(`Closed with: ${result}`);
+      // console.log(`Closed with: ${result}`);
     });
   }
 
@@ -49,48 +57,51 @@ export class RegistryComponent implements OnInit {
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
-    private http: HttpClient
+    private http: HttpClient,
+    private activatedRoute: ActivatedRoute
   ) {}
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Basic ${this.authenticationService.userValue.authdata}`,
-    }),
-  };
-
   ngOnInit(): void {
+    if (
+      this.authenticationService.isAdmin(this.authenticationService.userValue)
+    ) {
+      this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    } else {
+      this.id = this.authenticationService.userValue.id;
+    }
+    console.log(this.id);
+
     this.http
       .get<Glucose[]>(
-        `${environment.apiUrl}/patients/${this.authenticationService.userValue.id}/glucose`,
+        `${environment.apiUrl}/patients/${this.id}/glucose`,
         this.httpOptions
       )
       .subscribe(
         (data) => {
-          console.log(data);
+          // console.log(data);
           this.glucoseList = data.sort(
             (a, b) => new Date(a.date).getTime() + new Date(b.date).getTime()
           );
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
         }
       );
 
     this.http
       .get<Bolus[]>(
-        `${environment.apiUrl}/patients/${this.authenticationService.userValue.id}/bolus`,
+        `${environment.apiUrl}/patients/${this.id}/bolus`,
         this.httpOptions
       )
       .subscribe(
         (data) => {
-          console.log(data);
+          // console.log(data);
           this.bolusList = data.sort(
             (a, b) => new Date(a.date).getTime() + new Date(b.date).getTime()
           );
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
         }
       );
 
@@ -115,7 +126,7 @@ export class RegistryComponent implements OnInit {
     };
     this.http
       .post<Glucose>(
-        `${environment.apiUrl}/patients/${this.authenticationService.userValue.id}/glucose`,
+        `${environment.apiUrl}/patients/${this.id}/glucose`,
         newGlucose,
         this.httpOptions
       )
@@ -131,7 +142,7 @@ export class RegistryComponent implements OnInit {
           });
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
         }
       );
   }
@@ -148,7 +159,7 @@ export class RegistryComponent implements OnInit {
     };
     this.http
       .post<Bolus>(
-        `${environment.apiUrl}/patients/${this.authenticationService.userValue.id}/bolus`,
+        `${environment.apiUrl}/patients/${this.id}/bolus`,
         newBolus,
         this.httpOptions
       )
@@ -166,7 +177,7 @@ export class RegistryComponent implements OnInit {
           });
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
         }
       );
   }

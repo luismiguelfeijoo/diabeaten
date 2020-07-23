@@ -215,7 +215,7 @@ export class LoginComponent implements OnInit {
           this.disabledRegister = false;
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
           this.toastr.error(
             `${error ? 'Error creating user with the provided username' : ''}`,
             '',

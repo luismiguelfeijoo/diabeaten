@@ -87,6 +87,11 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (
+      this.authenticationService.isAdmin(this.authenticationService.userValue)
+    ) {
+      this.router.navigate(['/patients']);
+    }
     this.http
       .get<Patient>(
         `${environment.apiUrl}/patients/${this.authenticationService.userValue.id}`,

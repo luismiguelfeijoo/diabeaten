@@ -17,6 +17,8 @@ import { BasicAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { LoginComponent } from './pages/login/login.component';
 import { RegistryComponent } from './pages/registry/registry.component';
 import { BolusCalculateComponent } from './pages/bolus-calculate/bolus-calculate.component';
+import { PatientListComponent } from './pages/patient-list/patient-list.component';
+import { NotificationService } from '../app/_services/notification.service';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { BolusCalculateComponent } from './pages/bolus-calculate/bolus-calculate
     LoginComponent,
     RegistryComponent,
     BolusCalculateComponent,
+    PatientListComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { BolusCalculateComponent } from './pages/bolus-calculate/bolus-calculate
     BrowserAnimationsModule,
   ],
   providers: [
+    NotificationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BasicAuthInterceptor,

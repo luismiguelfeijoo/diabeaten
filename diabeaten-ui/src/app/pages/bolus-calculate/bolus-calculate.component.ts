@@ -47,6 +47,11 @@ export class BolusCalculateComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    if (
+      this.authenticationService.isAdmin(this.authenticationService.userValue)
+    ) {
+      this.router.navigate(['/patients']);
+    }
     this.calculateForm = this.formBuilder.group({
       glucose: ['', [Validators.required, Validators.min(0)]],
       carbs: ['', [Validators.required, Validators.min(0)]],
@@ -78,7 +83,7 @@ export class BolusCalculateComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          console.log(data);
+          // console.log(data);
           this.addBolusForm = this.formBuilder.group({
             glucose: [data.glucose, [Validators.required, Validators.min(0)]],
             chBolus: [data.chBolus, [Validators.required, Validators.min(0)]],
@@ -96,9 +101,7 @@ export class BolusCalculateComponent implements OnInit {
             }
           );
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => {}
       );
   }
 

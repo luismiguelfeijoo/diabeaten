@@ -48,4 +48,8 @@ export class AuthenticationService {
     this.userSubject.next(null);
     this.router.navigate(['/login']);
   }
+
+  isAdmin(user: User): boolean {
+    return user.roles.find((role) => role.role === 'ROLE_ADMIN') ? true : false;
+  }
 }

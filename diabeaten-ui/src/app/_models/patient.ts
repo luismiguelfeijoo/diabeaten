@@ -9,4 +9,5 @@ export class Patient {
   sensibilities: Sensibility[];
   totalBasal: number;
   dia: number;
+  id?: number;
 }

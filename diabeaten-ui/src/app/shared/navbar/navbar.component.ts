@@ -9,6 +9,7 @@ import { ROUTES } from '../../sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { AuthenticationService } from 'src/app/_services';
+import { NotificationService } from 'src/app/_services/notification.service';
 
 @Component({
   selector: 'app-navbar',
@@ -30,7 +31,8 @@ export class NavbarComponent implements OnInit {
     location: Location,
     private renderer: Renderer2,
     private element: ElementRef,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.location = location;
     this.nativeElement = element.nativeElement;
@@ -44,6 +46,7 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe((event) => {
       this.sidebarClose();
     });
+    this.notificationService._connect();
   }
   getTitle() {
     let titlee = this.location.prepareExternalUrl(this.location.path());
@@ -109,5 +112,10 @@ export class NavbarComponent implements OnInit {
   }
   logout() {
     this.authenticationService.logout();
+    this.notificationService._disconnect();
+  }
+
+  sendMessage(message: string) {
+    this.notificationService._send(message);
   }
 }
