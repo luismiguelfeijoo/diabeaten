@@ -10,4 +10,5 @@ export class Patient {
   totalBasal: number;
   dia: number;
   id?: number;
+  monitors?: User[];
 }

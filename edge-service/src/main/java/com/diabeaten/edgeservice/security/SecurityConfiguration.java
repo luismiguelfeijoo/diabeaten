@@ -48,6 +48,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .mvcMatchers(HttpMethod.POST, "/patients").permitAll()
                 .mvcMatchers(HttpMethod.GET,"/patients").hasAuthority("ROLE_ADMIN")
                 .mvcMatchers("/patients/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PATIENT")
+                .mvcMatchers(HttpMethod.GET,"/monitors").hasAnyAuthority("ROLE_ADMIN", "ROLE_PATIENT")
+                .mvcMatchers(HttpMethod.POST,"/monitors").hasAnyAuthority("ROLE_ADMIN", "ROLE_PATIENT")
+                .mvcMatchers("/monitors/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PATIENT", "ROLE_MONITOR")
                 .anyRequest().permitAll()
                 .and().requestCache().requestCache(new NullRequestCache()).and().httpBasic().and().cors().and().csrf().disable();
 

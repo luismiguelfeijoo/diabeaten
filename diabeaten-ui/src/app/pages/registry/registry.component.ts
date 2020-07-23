@@ -14,6 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { createOfflineCompileUrlResolver } from '@angular/compiler';
+import { NotificationService } from 'src/app/_services/notification.service';
 
 @Component({
   selector: 'app-registry',
@@ -58,7 +59,8 @@ export class RegistryComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
     private http: HttpClient,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -140,6 +142,7 @@ export class RegistryComponent implements OnInit {
           this.addGlucoseForm = this.formBuilder.group({
             glucose: ['', [Validators.required, Validators.min(0)]],
           });
+          this.sendGlucose(data.glucose);
         },
         (error) => {
           // console.log(error);
@@ -175,10 +178,19 @@ export class RegistryComponent implements OnInit {
             chBolus: ['', [Validators.required, Validators.min(0)]],
             correctionBolus: ['', Validators.required],
           });
+          this.sendBolus(data.chBolus + data.correctionBolus);
         },
         (error) => {
           // console.log(error);
         }
       );
+  }
+
+  sendGlucose(message: any) {
+    this.notificationService._send(message, '/app/notification/glucose');
+  }
+
+  sendBolus(message: any) {
+    this.notificationService._send(message, '/app/notification/bolus');
   }
 }

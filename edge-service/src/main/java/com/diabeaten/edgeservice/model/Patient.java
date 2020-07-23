@@ -11,6 +11,7 @@ public class Patient {
     private BigDecimal DIA;
     private List<Ratio> ratios;
     private List<Sensibility> sensibilities;
+    private List<User> monitors;
 
     public Long getId() {
         return id;
@@ -66,5 +67,13 @@ public class Patient {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<User> getMonitors() {
+        return monitors;
+    }
+
+    public void setMonitors(List<User> monitors) {
+        this.monitors = monitors;
     }
 }

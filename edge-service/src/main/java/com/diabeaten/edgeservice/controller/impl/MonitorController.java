@@ -1,12 +1,13 @@
-package com.diabeaten.userservice.controller.impl;
+package com.diabeaten.edgeservice.controller.impl;
 
-import com.diabeaten.userservice.controller.dto.NewMonitorDTO;
-import com.diabeaten.userservice.controller.interfaces.IMonitorController;
-import com.diabeaten.userservice.model.Monitor;
-import com.diabeaten.userservice.service.MonitorService;
+import com.diabeaten.edgeservice.client.dto.NewMonitorDTO;
+import com.diabeaten.edgeservice.controller.interfaces.IMonitorController;
+import com.diabeaten.edgeservice.model.User;
+import com.diabeaten.edgeservice.service.MonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,19 +17,19 @@ public class MonitorController implements IMonitorController {
 
     @GetMapping("/monitors")
     @Override
-    public List<Monitor> getMonitors() {
+    public List<User> getAll() {
         return monitorService.getAll();
     }
 
     @GetMapping("/monitors/{id}")
     @Override
-    public Monitor getById(@PathVariable(name = "id") Long id) {
+    public User getById(@PathVariable(name = "id") Long id) {
         return monitorService.getById(id);
     }
 
     @PostMapping("/monitors")
     @Override
-    public Monitor create(@RequestBody NewMonitorDTO newMonitorDTO) {
+    public User create(@RequestBody @Valid NewMonitorDTO newMonitorDTO) {
         return monitorService.create(newMonitorDTO);
     }
 }

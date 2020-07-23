@@ -2,14 +2,15 @@ package com.diabeaten.userservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.List;
 
 @Entity
 public class Patient extends User {
     private String name;
-    @JsonIgnore
     @OneToMany(mappedBy = "patient")
     private List<Monitor> monitors;
 

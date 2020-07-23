@@ -52,6 +52,7 @@ public class PatientService {
         patient.setSensibilities(userInformation.getSensibilities());
         patient.setRatios(userInformation.getCarbRatios());
         patient.setDIA(userInformation.getDIA());
+        patient.setMonitors(foundUser.getMonitors());
         return patient;
     }
 

@@ -12,6 +12,7 @@ import { AuthenticationService } from 'src/app/_services';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Patient } from 'src/app/_models/patient';
 import { environment } from 'src/environments/environment';
+import { User } from 'src/app/_models';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,7 @@ import { environment } from 'src/environments/environment';
 export class ProfileComponent implements OnInit {
   loading = false;
   disabled = false;
+  monitors: User[] = [];
   profileForm: FormGroup = new FormGroup({
     username: new FormControl(),
     name: new FormControl(),
@@ -108,6 +110,7 @@ export class ProfileComponent implements OnInit {
             ratios: this.formBuilder.array([]),
             sensibilities: this.formBuilder.array([]),
           });
+          this.monitors = response.monitors;
           response.ratios.forEach((ratio) => {
             this.addRatio(ratio);
           });
@@ -157,6 +160,13 @@ export class ProfileComponent implements OnInit {
       )
       .subscribe(
         (response) => {
+          this.toastr.success(`Profile updated successfully`, '', {
+            timeOut: 2000,
+            enableHtml: true,
+            toastClass: 'alert alert-success alert-with-icon',
+            positionClass: 'toast-top-center',
+          });
+
           this.profileForm = this.formBuilder.group({
             username: [response.username],
             name: [response.name, Validators.required],

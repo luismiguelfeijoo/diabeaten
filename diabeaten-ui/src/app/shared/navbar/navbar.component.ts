@@ -116,6 +116,6 @@ export class NavbarComponent implements OnInit {
   }
 
   sendMessage(message: string) {
-    this.notificationService._send(message);
+    this.notificationService._send(message, '/app/notification/glucose');
   }
 }

@@ -4,17 +4,17 @@ import { environment } from 'src/environments/environment';
 import { AuthenticationService } from './authentication.service';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { User } from '../_models';
 
 @Injectable()
 export class NotificationService {
   webSocketEndPoint = `${environment.socketUrl}/ws`;
-  /*topic: string = `${
-    this.authenticationService.isAdmin
-      ? 'admin'
-      : this.authenticationService.userValue.id
-  }/topic/greetings`;
-  */
-  topic = '/topic/notification';
+  topic: string = `${
+    this.authenticationService.isAdmin(this.authenticationService.userValue)
+      ? '/topic/admin'
+      : '/topic/user-' + this.authenticationService.userValue.id
+  }`;
+  // topic = '/topic/notification';
   stompClient: any;
 
   constructor(
@@ -23,7 +23,10 @@ export class NotificationService {
   ) {}
 
   _connect() {
-    console.log('Initialize WebSocket Connection');
+    console.log(
+      'Initialize WebSocket Connection',
+      this.authenticationService.isAdmin(this.authenticationService.userValue)
+    );
     let ws = new SockJS(this.webSocketEndPoint);
     this.stompClient = Stomp.over(ws);
     const _this = this;
@@ -58,9 +61,14 @@ export class NotificationService {
    * Send message to sever via web socket
    * @param {*} message
    */
-  _send(message) {
+  _send(message: any, url: string) {
     console.log('calling logout api via web socket');
-    this.stompClient.send('/app/hello', {}, JSON.stringify(message));
+    console.log(this.authenticationService.userValue);
+    this.stompClient.send(
+      url,
+      { senderId: this.authenticationService.userValue.id },
+      message
+    );
   }
 
   onMessageReceived(message) {

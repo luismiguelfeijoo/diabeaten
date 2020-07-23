@@ -1,5 +1,6 @@
 package com.diabeaten.edgeservice.client;
 
+import com.diabeaten.edgeservice.client.dto.NewMonitorDTO;
 import com.diabeaten.edgeservice.client.dto.NewUserDTO;
 import com.diabeaten.edgeservice.client.dto.UpdateUserDTO;
 import com.diabeaten.edgeservice.model.User;
@@ -40,4 +41,7 @@ public interface UserClient {
 
     @GetMapping("/monitors/{id}")
     public User getMonitorById(@RequestHeader(name = "Authorization") String token, @PathVariable(name = "id") Long id);
+
+    @PostMapping("/monitors")
+    public User create(@RequestHeader(name = "Authorization") String token, @RequestBody NewMonitorDTO newMonitorDTO);
 }

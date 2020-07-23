@@ -1,6 +1,7 @@
 package com.diabeaten.edgeservice.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ public class User {
     private String username;
     private String password;
     private String name;
+    private List<User> monitors;
     private Set<Role> roles = new HashSet<>();
 
     public User() {}
@@ -59,6 +61,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<User> getMonitors() {
+        return monitors;
+    }
+
+    public void setMonitors(List<User> monitors) {
+        this.monitors = monitors;
     }
 
     @Override

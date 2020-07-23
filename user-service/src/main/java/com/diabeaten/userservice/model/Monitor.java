@@ -1,5 +1,8 @@
 package com.diabeaten.userservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -7,7 +10,8 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Monitor extends User {
     private String name;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Patient patient;
 
     public Monitor() {

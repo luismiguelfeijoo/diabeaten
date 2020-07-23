@@ -4,4 +4,6 @@
   password: string;
   roles: any[];
   authdata?: string;
+  monitors?: User[];
+  name?: string;
 }

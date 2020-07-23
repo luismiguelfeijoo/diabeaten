@@ -229,84 +229,17 @@
         </div>
         <div class="card-body">
           <ul class="list-unstyled team-members">
-            <li>
+            <li *ngFor="let monitor of monitors">
               <div class="row">
-                <div class="col-md-2 col-2">
-                  <div class="avatar">
-                    <img
-                      src="assets/img/faces/ayo-ogunseinde-2.jpg"
-                      alt="Circle Image"
-                      class="img-circle img-no-padding img-responsive"
-                    />
-                  </div>
+                <div class="col-md-1 col-2 mt-2 pl-4">
+                  <i class="nc-icon nc-circle-10"></i>
                 </div>
                 <div class="col-md-7 col-7">
-                  DJ Khaled
+                  {{ monitor.name }}
                   <br />
                   <span class="text-muted">
-                    <small>Offline</small>
+                    <small>{{ monitor.username }}</small>
                   </span>
-                </div>
-                <div class="col-md-3 col-3 text-right">
-                  <button
-                    class="btn btn-sm btn-outline-success btn-round btn-icon"
-                  >
-                    <i class="fa fa-envelope"></i>
-                  </button>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="row">
-                <div class="col-md-2 col-2">
-                  <div class="avatar">
-                    <img
-                      src="assets/img/faces/joe-gardner-2.jpg"
-                      alt="Circle Image"
-                      class="img-circle img-no-padding img-responsive"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-7 col-7">
-                  Creative Tim
-                  <br />
-                  <span class="text-success">
-                    <small>Available</small>
-                  </span>
-                </div>
-                <div class="col-md-3 col-3 text-right">
-                  <button
-                    class="btn btn-sm btn-outline-success btn-round btn-icon"
-                  >
-                    <i class="fa fa-envelope"></i>
-                  </button>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="row">
-                <div class="col-md-2 col-2">
-                  <div class="avatar">
-                    <img
-                      src="assets/img/faces/clem-onojeghuo-2.jpg"
-                      alt="Circle Image"
-                      class="img-circle img-no-padding img-responsive"
-                    />
-                  </div>
-                </div>
-                <div class="col-ms-7 col-7">
-                  Flume
-                  <br />
-                  <span class="text-danger">
-                    <small>Busy</small>
-                  </span>
-                </div>
-                <div class="col-md-3 col-3 text-right">
-                  <button
-                    class="btn btn-sm btn-outline-success btn-round btn-icon"
-                  >
-                    <i class="fa fa-envelope"></i>
-                  </button>
                 </div>
               </div>
             </li>
