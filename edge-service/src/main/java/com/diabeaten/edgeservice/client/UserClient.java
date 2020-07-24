@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name ="user-service")
+@FeignClient(name ="user-service",url ="https://user-service-diabeaten.herokuapp.com" )
 public interface UserClient {
 
     @GetMapping("/users")

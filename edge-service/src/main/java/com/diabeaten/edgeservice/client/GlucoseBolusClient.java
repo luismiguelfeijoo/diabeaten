@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
-@FeignClient(name = "glucose-bolus-service")
+@FeignClient(name = "glucose-bolus-service", url = "https://gb-service-diabeaten.herokuapp.com")
 public interface GlucoseBolusClient {
 
     @GetMapping("/bolus/by")
