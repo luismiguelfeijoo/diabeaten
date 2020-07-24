@@ -142,7 +142,7 @@ Here's were Diabeaten comes in, providing an intuitive web platform, easy to use
 | Edge         | [Edge-Service](http://edge-service-diabeaten.herokuapp.com/)             | 
 | User         | [User-Service](https://user-service-diabeaten.herokuapp.com/)            |        
 | Information  | [Information-Service](http://information-service-diabeaten.herokuapp.com/)         |        
-| Glucose Bolus| [GC-Service](http://gc-service-diabeaten.herokuapp.com/)             |
+| Glucose Bolus| [GB-Service](http://gb-service-diabeaten.herokuapp.com/)             |
 | Notification | [Notification-Service](http://notification-service-diabeaten.herokuapp.com/)     |
 
 Once opened, go to [Eureka-Server](https://eureka-server-diabeaten.herokuapp.com/) and check if all services are registered. Total list must be 5 services.
