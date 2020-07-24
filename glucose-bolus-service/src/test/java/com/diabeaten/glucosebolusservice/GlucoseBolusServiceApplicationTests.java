@@ -10,4 +10,9 @@ class GlucoseBolusServiceApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	public void main() {
+		GlucoseBolusServiceApplication.main(new String[] {});
+	}
+
 }

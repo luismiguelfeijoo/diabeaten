@@ -10,7 +10,7 @@ public class GlucoseDTO {
     private Long userId;
     @NotNull
     private Date date;
-    @DecimalMin("40")
+    @DecimalMin("0")
     private BigDecimal glucose;
 
     public Long getUserId() {
