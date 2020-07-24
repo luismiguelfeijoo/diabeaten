@@ -10,4 +10,9 @@ class NotificationServiceApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	public void main() {
+		NotificationServiceApplication.main(new String[] {});
+	}
+
 }

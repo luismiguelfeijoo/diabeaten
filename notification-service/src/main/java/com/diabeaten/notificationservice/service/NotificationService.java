@@ -28,9 +28,4 @@ public class NotificationService {
         return notificationRepository.save(new Notification(message, sender));
     }
 
-    public Notification addBolusNotification(String message, String senderId) {
-        String userToken = "Bearer " + jwtUtil.generateToken("user-service");
-        User sender = userClient.getPatientById(userToken, Long.parseLong(senderId));
-        return notificationRepository.save(new Notification(message, sender));
-    }
 }
