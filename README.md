@@ -156,6 +156,8 @@ You may also see the admin view using
 username: admin@admin.com
 password: admin
 ````
+
+Also all edge routes are documented: [![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/10352687/T1DpDdba?version=latest)
   
 ## TO-DO
 Given just 1 week this project has come all the way over here, but the work continues!
