@@ -1,0 +1,42 @@
+<app-user-layout>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-10 pr-1">
+              <h4 class="card-title">Patients</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class="text-primary">
+                <th>
+                  Username
+                </th>
+                <th>
+                  Name
+                </th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let patient of patientList">
+                  <td
+                    routerLink="/registry/{{ patient.id }}"
+                    style="cursor: pointer;"
+                  >
+                    {{ patient.username }}
+                  </td>
+                  <td>
+                    {{ patient.name }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-user-layout>

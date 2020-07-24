@@ -1,0 +1,197 @@
+<app-user-layout>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-10 pr-1">
+              <h4 class="card-title">Glucose Registry</h4>
+            </div>
+            <div class="col-md-2 px-1 mt-3">
+              <i class="nc-icon nc-simple-add" (click)="open(glucose)"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class="text-primary">
+                <th>
+                  Date
+                </th>
+                <th>
+                  GS (mg/dl)
+                </th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let glucose of glucoseList">
+                  <td>
+                    {{ glucose.date | date: "medium":"UTC" }}
+                  </td>
+                  <td>
+                    {{ glucose.glucose }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 px-1">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-11 pr-1">
+              <h4 class="card-title">Bolus Registry</h4>
+            </div>
+            <div class="col-md-1 px-1 mt-3">
+              <i class="nc-icon nc-simple-add" (click)="open(bolus)"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class="text-primary">
+                <th>
+                  Date
+                </th>
+                <th>
+                  GS (mg/dl)
+                </th>
+                <th>
+                  Correction
+                </th>
+                <th>
+                  Meal
+                </th>
+                <th>
+                  Total
+                </th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let bolus of bolusList">
+                  <td>
+                    {{ bolus.date | date: "medium":"UTC" }}
+                  </td>
+                  <td>
+                    {{ bolus.glucose }}
+                  </td>
+                  <td>
+                    {{ bolus.correctionBolus }}
+                  </td>
+                  <td>
+                    {{ bolus.chBolus }}
+                  </td>
+                  <td>
+                    {{ bolus.chBolus + bolus.correctionBolus }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-user-layout>
+
+<ng-template #glucose let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Add Glucose</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.close()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="addGlucoseForm" (ngSubmit)="addGlucose()">
+      <div class="row">
+        <div class="col-md-10">
+          <div class="form-group">
+            <label for="dateOfBirth">Glucose Level (mg/dl)</label>
+            <input
+              class="form-control"
+              placeholder="ex: 100"
+              type="number"
+              formControlName="glucose"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-info" (click)="addGlucose()">
+      Add
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #bolus let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Add Bolus</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.close()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="addBolusForm" (ngSubmit)="addBolus()">
+      <div class="row">
+        <div class="col-md-10">
+          <div class="form-group">
+            <label for="dateOfBirth">Glucose Level (mg/dl)</label>
+            <input
+              class="form-control"
+              placeholder="ex: 100"
+              type="number"
+              formControlName="glucose"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10">
+          <div class="form-group">
+            <label for="dateOfBirth">Meal Bolus (units)</label>
+            <input
+              class="form-control"
+              placeholder="ex: 5.75"
+              type="number"
+              formControlName="chBolus"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10">
+          <div class="form-group">
+            <label for="dateOfBirth">Correction Bolus (units)</label>
+            <input
+              class="form-control"
+              placeholder="ex: 1.25"
+              type="number"
+              formControlName="correctionBolus"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-info" (click)="addBolus()">
+      Add
+    </button>
+  </div>
+</ng-template>

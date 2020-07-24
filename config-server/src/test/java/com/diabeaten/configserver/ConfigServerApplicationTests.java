@@ -10,4 +10,9 @@ class ConfigServerApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	public void main() {
+		ConfigServerApplication.main(new String[] {});
+	}
+
 }

@@ -1,0 +1,121 @@
+<app-user-layout>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card card-user">
+        <div class="card-header">
+          <h5 class="card-title">Calculate Bolus</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="calculateForm">
+            <div class="row">
+              <div class="col-md-11 pr-1">
+                <div class="form-group">
+                  <label>Current Glucose (mg/dl)</label>
+                  <input
+                    formControlName="glucose"
+                    type="number"
+                    class="form-control"
+                    placeholder="ex: 120"
+                    step="1"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-11 pr-1">
+                <div class="form-group">
+                  <label>Carbohidatres (grams)</label>
+                  <input
+                    formControlName="carbs"
+                    type="number"
+                    step="0.5"
+                    class="form-control"
+                    placeholder="ex: 30"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="update ml-auto mr-auto">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-round"
+                  (click)="onCalculate()"
+                >
+                  Calculate Bolus
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-7">
+      <div class="card card-user">
+        <div class="card-header">
+          <h5 class="card-title">Add bolus</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="addBolusForm" (ngSubmit)="addBolus()">
+            <div class="row">
+              <div class="col-md-11">
+                <div class="form-group">
+                  <label for="dateOfBirth">Glucose Level (mg/dl)</label>
+                  <input
+                    class="form-control"
+                    placeholder="..."
+                    type="number"
+                    formControlName="glucose"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-11">
+                <div class="form-group">
+                  <label for="dateOfBirth">Meal Bolus (units)</label>
+                  <input
+                    class="form-control"
+                    placeholder="..."
+                    type="number"
+                    formControlName="chBolus"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-11">
+                <div class="form-group">
+                  <label for="dateOfBirth">Correction Bolus (units)</label>
+                  <input
+                    class="form-control"
+                    placeholder="..."
+                    type="number"
+                    formControlName="correctionBolus"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="update ml-auto mr-auto">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-round"
+                  [disabled]="addBolusForm.invalid"
+                >
+                  Add Bolus
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-user-layout>
