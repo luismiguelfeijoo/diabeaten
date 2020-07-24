@@ -30,24 +30,6 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    /*
-    @Transactional
-    public User create(NewUserDTO user) {
-        User newUser = new User(user.getUsername(), user.getPassword());
-        Role role = new Role();
-        role.setRole("ROLE_" + user.getType().toString());
-        role.setUser(newUser);
-        User result = null;
-        try {
-            result = userRepository.save(newUser);
-        } catch (DataIntegrityViolationException e) {
-            throw new DuplicatedUsernameException("There's already an user with the provided username");
-        }
-        roleRepository.save(role);
-        return result;
-    }
-     */
-
     public User getById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new NoSuchUserException("There's no user with provided id"));
     }

@@ -31,14 +31,4 @@ public class UserController implements IUserController {
         }
         return null;
     }
-
-    // create new users
-
-    /*
-    @PostMapping("/users")
-    @Override
-    public User createUser(@RequestBody @Valid NewUserDTO newUser) {
-        return userService.create(newUser);
-    }
-     */
 }

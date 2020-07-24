@@ -58,10 +58,12 @@ public class PatientService {
     public void delete(Long id) {
         System.out.println("deleting");
         Optional<Patient> foundPatient = patientRepository.findById(id);
-        if (foundPatient.isPresent()) {
-            foundPatient.get().getMonitors().forEach(monitor -> {
-                monitor.setPatient(null);
-            });
+        if (foundPatient.isPresent() ) {
+            if (foundPatient.get().getMonitors().size() > 0) {
+                foundPatient.get().getMonitors().forEach(monitor -> {
+                    monitor.setPatient(null);
+                });
+            }
             patientRepository.delete(foundPatient.get());
         }
     }
