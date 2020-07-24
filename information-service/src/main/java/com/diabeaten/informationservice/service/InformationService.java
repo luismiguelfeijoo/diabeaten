@@ -52,12 +52,9 @@ public class InformationService {
     public Information update(Long id, UpdateInformationDTO updateInformationDTO) {
         Information foundInformation = informationRepository.findById(id).orElseThrow(() -> new InformationNotFoundException("There's no information with provided id"));
 
+        // removing old ratios and sensibilities
         foundInformation.getCarbRatios().removeAll(foundInformation.getCarbRatios());
         foundInformation.getSensibilities().removeAll(foundInformation.getSensibilities());
-        //List<Ratio> ratioDeleteList = foundInformation.getCarbRatios();
-        //List<Sensibility> sensibilityDeleteList = foundInformation.getSensibilities();
-        //ratioRepository.deleteAll(ratioDeleteList);
-        //sensibilityRepository.deleteAll(sensibilityDeleteList);
 
         foundInformation.setDIA(updateInformationDTO.getDia());
         foundInformation.setTotalBasal(updateInformationDTO.getTotalBasal());
@@ -73,8 +70,7 @@ public class InformationService {
             newSensibility.setInformationUser(foundInformation);
             foundInformation.getSensibilities().add(newSensibility);
         }
-        //ratioRepository.saveAll(ratioList);
-        //sensibilityRepository.saveAll(sensibilityList);
+
         return informationRepository.save(foundInformation);
 
     }
