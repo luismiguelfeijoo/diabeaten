@@ -45,6 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 //mvcMatchers
+                .mvcMatchers("/users**").hasAuthority("ROLE_ADMIN")
                 .mvcMatchers(HttpMethod.POST, "/patients").permitAll()
                 .mvcMatchers(HttpMethod.GET,"/patients").hasAuthority("ROLE_ADMIN")
                 .mvcMatchers(HttpMethod.DELETE,"/patients/**").hasAuthority("ROLE_ADMIN")

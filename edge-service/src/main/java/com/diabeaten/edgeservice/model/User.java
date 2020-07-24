@@ -1,5 +1,7 @@
 package com.diabeaten.edgeservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +13,7 @@ public class User {
      */
     private Long id;
     private String username;
+    // @JsonIgnore
     private String password;
     private String name;
     private List<User> monitors;

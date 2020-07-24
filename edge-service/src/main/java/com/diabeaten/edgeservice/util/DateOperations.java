@@ -10,9 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateOperations {
-    public static void main(String[] args) {
-        System.out.println(DateOperations.betweenHours(Time.valueOf("11:00:00"), Time.valueOf("20:22:59"), new Date()));
-    }
 
     public static Date dateMinusHours(Date date, BigDecimal hours) {
         Calendar calendar = Calendar.getInstance();
