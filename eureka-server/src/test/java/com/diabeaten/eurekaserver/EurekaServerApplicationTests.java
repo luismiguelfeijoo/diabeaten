@@ -10,4 +10,9 @@ class EurekaServerApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	public void main() {
+		EurekaServerApplication.main(new String[] {});
+	}
+
 }
