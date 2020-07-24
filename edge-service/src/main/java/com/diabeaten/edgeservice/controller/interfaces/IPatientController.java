@@ -14,6 +14,7 @@ public interface IPatientController {
     // Must be replaced with Patien when created
     public List<User> getAll();
     public Patient getById(User user, Long id);
+    public void delete(Long id);
     public User create(NewPatientDTO newPatientDTO);
     public List<Glucose> getGlucose(User user, Long userId);
     public Glucose addGlucose(User user, Long userId, GlucoseDTO glucoseDTO);

@@ -27,6 +27,12 @@ public class MonitorController implements IMonitorController {
         return monitorService.getById(id);
     }
 
+    @DeleteMapping("/monitors/{id}")
+    @Override
+    public void delete(@PathVariable(name = "id") Long id) {
+        monitorService.delete(id);
+    }
+
     @PostMapping("/monitors")
     @Override
     public User create(@RequestBody @Valid NewMonitorDTO newMonitorDTO) {

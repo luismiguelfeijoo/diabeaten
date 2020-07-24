@@ -11,4 +11,5 @@ public interface IPatientController {
     public Patient getById(Long id);
     public Patient create(NewUserDTO newUserDTO);
     public Patient update(Long id, UpdateUserDTO updateUserDTO);
+    public void delete(Long id);
 }

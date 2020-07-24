@@ -4,7 +4,6 @@ import com.diabeaten.edgeservice.client.GlucoseBolusClient;
 import com.diabeaten.edgeservice.client.InformationClient;
 import com.diabeaten.edgeservice.client.UserClient;
 import com.diabeaten.edgeservice.client.dto.*;
-import com.diabeaten.edgeservice.enums.UserType;
 import com.diabeaten.edgeservice.exception.AccessNotAllowedException;
 import com.diabeaten.edgeservice.exception.RatioNotAvailableException;
 import com.diabeaten.edgeservice.model.*;
@@ -174,4 +173,8 @@ public class PatientService {
     }
 
 
+    public void delete(Long id) {
+        String userToken = "Bearer " + jwtUtil.generateToken("user-service");
+        userClient.deletePatientById(userToken, id);
+    }
 }

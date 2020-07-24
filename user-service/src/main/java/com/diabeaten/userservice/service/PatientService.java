@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PatientService {
@@ -52,5 +53,16 @@ public class PatientService {
         foundPatient.setName(updateUserDTO.getName());
         foundPatient.setUsername(updateUserDTO.getUsername());
         return patientRepository.save(foundPatient);
+    }
+
+    public void delete(Long id) {
+        System.out.println("deleting");
+        Optional<Patient> foundPatient = patientRepository.findById(id);
+        if (foundPatient.isPresent()) {
+            foundPatient.get().getMonitors().forEach(monitor -> {
+                monitor.setPatient(null);
+            });
+            patientRepository.delete(foundPatient.get());
+        }
     }
 }

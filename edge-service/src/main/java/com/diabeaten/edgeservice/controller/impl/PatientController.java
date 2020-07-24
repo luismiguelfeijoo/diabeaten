@@ -39,6 +39,12 @@ public class PatientController implements IPatientController {
         return patientService.getById(user, id);
     }
 
+    @DeleteMapping("/patients/{id}")
+    @Override
+    public void delete(@PathVariable(name = "id") Long id) {
+        patientService.delete(id);
+    }
+
     @PutMapping("/patients/{id}")
     @Override
     public Patient update(@AuthenticationPrincipal User user, @PathVariable(name = "id") Long id, @RequestBody UpdatePatientDTO updatePatientDTO ) {

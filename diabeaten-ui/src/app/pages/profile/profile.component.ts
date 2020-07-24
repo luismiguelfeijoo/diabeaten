@@ -13,6 +13,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Patient } from 'src/app/_models/patient';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/app/_models';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Monitor } from 'src/app/_models/monitor';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +25,14 @@ import { User } from 'src/app/_models';
 export class ProfileComponent implements OnInit {
   loading = false;
   disabled = false;
+
+  modalRefence;
+
+  monitorForm: FormGroup = new FormGroup({
+    username: new FormControl(),
+    name: new FormControl(),
+    password: new FormControl(),
+  });
   monitors: User[] = [];
   profileForm: FormGroup = new FormGroup({
     username: new FormControl(),
@@ -37,7 +48,8 @@ export class ProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private http: HttpClient
+    private http: HttpClient,
+    private modalService: NgbModal
   ) {}
 
   httpOptions = {
@@ -122,6 +134,28 @@ export class ProfileComponent implements OnInit {
           console.log(error);
         }
       );
+    this.monitorForm = this.formBuilder.group({
+      username: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^[\w!#$%&’*+\/=?`{|}~^-]+(?:\.[\w!#$%&’*+\/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$/
+          ),
+        ],
+      ],
+      name: ['', Validators.required],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$/
+          ),
+        ],
+      ],
+    });
+
     this.profileForm.valueChanges.subscribe((values) => {
       console.log(values);
     });
@@ -184,6 +218,70 @@ export class ProfileComponent implements OnInit {
         },
         (error) => {
           console.log(error);
+        }
+      );
+  }
+
+  open(content) {
+    this.modalRefence = this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+    });
+    this.modalRefence.result.then((result) => {
+      // console.log(`Closed with: ${result}`);
+    });
+  }
+
+  addMonitor(): void {
+    if (this.monitorForm.invalid) {
+      return;
+    }
+    const monitor: Monitor = {
+      username: this.monitorForm.controls.username.value,
+      name: this.monitorForm.controls.name.value,
+      password: this.monitorForm.controls.password.value,
+      patientId: this.authenticationService.userValue.id,
+    };
+    this.http
+      .post<User>(`${environment.apiUrl}/monitors`, monitor, this.httpOptions)
+      .subscribe(
+        (data) => {
+          this.toastr.success(`Monitor created!`, '', {
+            timeOut: 2000,
+            enableHtml: true,
+            toastClass: 'alert alert-success alert-with-icon',
+            positionClass: 'toast-top-center',
+          });
+          this.monitors.push(data);
+          this.modalRefence.close();
+          this.monitorForm = this.formBuilder.group({
+            username: [
+              '',
+              [
+                Validators.required,
+                Validators.pattern(
+                  /^[\w!#$%&’*+\/=?`{|}~^-]+(?:\.[\w!#$%&’*+\/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$/
+                ),
+              ],
+            ],
+            name: ['', Validators.required],
+            password: [
+              '',
+              [
+                Validators.required,
+                Validators.pattern(
+                  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$/
+                ),
+              ],
+            ],
+          });
+        },
+        (error) => {
+          this.toastr.success(`Cannot create monitor, try again later`, '', {
+            timeOut: 2000,
+            enableHtml: true,
+            toastClass: 'alert alert-danger alert-with-icon',
+            positionClass: 'toast-top-center',
+          });
         }
       );
   }

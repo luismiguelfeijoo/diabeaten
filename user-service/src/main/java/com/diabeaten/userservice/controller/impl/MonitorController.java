@@ -31,4 +31,10 @@ public class MonitorController implements IMonitorController {
     public Monitor create(@RequestBody NewMonitorDTO newMonitorDTO) {
         return monitorService.create(newMonitorDTO);
     }
+
+    @DeleteMapping("/monitors/{id}")
+    @Override
+    public void delete(@PathVariable(name = "id") Long id) {
+        monitorService.delete(id);
+    }
 }

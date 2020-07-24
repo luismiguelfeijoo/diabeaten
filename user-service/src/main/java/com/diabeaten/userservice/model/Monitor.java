@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 public class Monitor extends User {
     private String name;
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Patient patient;
 
     public Monitor() {

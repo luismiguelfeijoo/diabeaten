@@ -9,4 +9,5 @@ public interface IMonitorController {
     public List<Monitor> getMonitors();
     public Monitor getById(Long id);
     public Monitor create(NewMonitorDTO newMonitorDTO);
+    public void delete(Long id);
 }

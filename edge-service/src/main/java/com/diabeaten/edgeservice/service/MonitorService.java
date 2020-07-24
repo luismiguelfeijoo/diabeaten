@@ -30,4 +30,9 @@ public class MonitorService {
         String userToken = "Bearer " + jwtUtil.generateToken("user-service");
         return userClient.create(userToken, newMonitorDTO);
     }
+
+    public void delete(Long id) {
+        String userToken = "Bearer " + jwtUtil.generateToken("user-service");
+        userClient.deleteMonitorById(userToken, id);
+    }
 }

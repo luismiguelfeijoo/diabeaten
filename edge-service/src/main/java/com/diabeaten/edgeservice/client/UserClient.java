@@ -33,6 +33,9 @@ public interface UserClient {
     @PutMapping("/patients/{id}")
     public User updatePatient(@RequestHeader(name = "Authorization") String token, @PathVariable(name = "id") Long id, @RequestBody UpdateUserDTO updateUserDTO);
 
+    @DeleteMapping("/patients/{id}")
+    public void deletePatientById(@RequestHeader(name = "Authorization") String token, @PathVariable(name = "id") Long id);
+
     @PostMapping("/patients")
     public User createPatient(@RequestHeader(name = "Authorization") String token, @RequestBody NewUserDTO newUserDTO);
 
@@ -41,6 +44,9 @@ public interface UserClient {
 
     @GetMapping("/monitors/{id}")
     public User getMonitorById(@RequestHeader(name = "Authorization") String token, @PathVariable(name = "id") Long id);
+
+    @DeleteMapping("/monitors/{id}")
+    public User deleteMonitorById(@RequestHeader(name = "Authorization") String token, @PathVariable(name = "id") Long id);
 
     @PostMapping("/monitors")
     public User create(@RequestHeader(name = "Authorization") String token, @RequestBody NewMonitorDTO newMonitorDTO);
