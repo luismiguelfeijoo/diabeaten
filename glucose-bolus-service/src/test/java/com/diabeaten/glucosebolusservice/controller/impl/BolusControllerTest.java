@@ -70,16 +70,6 @@ class BolusControllerTest {
     }
 
     @Test
-    public void getByUserIdAndPeriod_NotMonitor_NotFound() throws Exception {
-        when(bolusService.getByUserAndPeriod(Mockito.anyLong(), Mockito.any(Date.class))).thenReturn(new ArrayList<>());
-        String response = mockMvc.perform(get("/bolus/by").header("Authorization", token)
-                .param("userId", "1").param("fromDate", "2015-12-31T23:59:59.999Z"))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-        assertEquals("[]", response);
-    }
-
-    @Test
     public void create_validBolus() throws Exception {
 
         BolusDTO bolusDTO = new BolusDTO();
