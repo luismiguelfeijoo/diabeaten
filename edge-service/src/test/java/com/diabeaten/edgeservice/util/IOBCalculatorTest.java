@@ -26,4 +26,12 @@ class IOBCalculatorTest {
         // after 1 hour roughly 70% is still active
         assertEquals(BigDecimal.valueOf(7), IOBCalculator.calculateIOB(dia, BigDecimal.TEN, bolusDate, new Date()).setScale(0, RoundingMode.HALF_DOWN));
     }
+
+    @Test
+    public void calculateIOB_DIAPassed() {
+        BigDecimal dia = new BigDecimal("3");
+        Date bolusDate = DateOperations.dateMinusHours(new Date(), BigDecimal.valueOf(3));
+        // after 1 hour roughly 70% is still active
+        assertEquals(BigDecimal.valueOf(0), IOBCalculator.calculateIOB(dia, BigDecimal.TEN, bolusDate, new Date()).setScale(0, RoundingMode.HALF_DOWN));
+    }
 }
