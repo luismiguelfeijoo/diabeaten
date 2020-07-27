@@ -17,7 +17,7 @@ public class InformationServiceApplication {
 
 	@PostConstruct
 	void started() {
-		TimeZone.setDefault(TimeZone.getTimeZone("TimeZone"));
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 	}
 
 }
